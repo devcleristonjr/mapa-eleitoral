@@ -1,0 +1,1670 @@
+[
+  {
+    "ibge": 2900108,
+    "municipio": "Abaíra"
+  },
+  {
+    "ibge": 2900207,
+    "municipio": "Abaré"
+  },
+  {
+    "ibge": 2900306,
+    "municipio": "Acajutiba"
+  },
+  {
+    "ibge": 2900355,
+    "municipio": "Adustina"
+  },
+  {
+    "ibge": 2900405,
+    "municipio": "Água Fria"
+  },
+  {
+    "ibge": 2900504,
+    "municipio": "Érico Cardoso"
+  },
+  {
+    "ibge": 2900603,
+    "municipio": "Aiquara"
+  },
+  {
+    "ibge": 2900702,
+    "municipio": "Alagoinhas"
+  },
+  {
+    "ibge": 2900801,
+    "municipio": "Alcobaça"
+  },
+  {
+    "ibge": 2900900,
+    "municipio": "Almadina"
+  },
+  {
+    "ibge": 2901007,
+    "municipio": "Amargosa"
+  },
+  {
+    "ibge": 2901106,
+    "municipio": "Amélia Rodrigues"
+  },
+  {
+    "ibge": 2901155,
+    "municipio": "América Dourada"
+  },
+  {
+    "ibge": 2901205,
+    "municipio": "Anagé"
+  },
+  {
+    "ibge": 2901304,
+    "municipio": "Andaraí"
+  },
+  {
+    "ibge": 2901353,
+    "municipio": "Andorinha"
+  },
+  {
+    "ibge": 2901403,
+    "municipio": "Angical"
+  },
+  {
+    "ibge": 2901502,
+    "municipio": "Anguera"
+  },
+  {
+    "ibge": 2901601,
+    "municipio": "Antas"
+  },
+  {
+    "ibge": 2901700,
+    "municipio": "Antônio Cardoso"
+  },
+  {
+    "ibge": 2901809,
+    "municipio": "Antônio Gonçalves"
+  },
+  {
+    "ibge": 2901908,
+    "municipio": "Aporá"
+  },
+  {
+    "ibge": 2901957,
+    "municipio": "Apuarema"
+  },
+  {
+    "ibge": 2902005,
+    "municipio": "Aracatu"
+  },
+  {
+    "ibge": 2902054,
+    "municipio": "Araçás"
+  },
+  {
+    "ibge": 2902104,
+    "municipio": "Araci"
+  },
+  {
+    "ibge": 2902203,
+    "municipio": "Aramari"
+  },
+  {
+    "ibge": 2902252,
+    "municipio": "Arataca"
+  },
+  {
+    "ibge": 2902302,
+    "municipio": "Aratuípe"
+  },
+  {
+    "ibge": 2902401,
+    "municipio": "Aurelino Leal"
+  },
+  {
+    "ibge": 2902500,
+    "municipio": "Baianópolis"
+  },
+  {
+    "ibge": 2902609,
+    "municipio": "Baixa Grande"
+  },
+  {
+    "ibge": 2902658,
+    "municipio": "Banzaê"
+  },
+  {
+    "ibge": 2902708,
+    "municipio": "Barra"
+  },
+  {
+    "ibge": 2902807,
+    "municipio": "Barra da Estiva"
+  },
+  {
+    "ibge": 2902906,
+    "municipio": "Barra do Choça"
+  },
+  {
+    "ibge": 2903003,
+    "municipio": "Barra do Mendes"
+  },
+  {
+    "ibge": 2903102,
+    "municipio": "Barra do Rocha"
+  },
+  {
+    "ibge": 2903201,
+    "municipio": "Barreiras"
+  },
+  {
+    "ibge": 2903235,
+    "municipio": "Barro Alto"
+  },
+  {
+    "ibge": 2903276,
+    "municipio": "Barrocas"
+  },
+  {
+    "ibge": 2903300,
+    "municipio": "Barro Preto"
+  },
+  {
+    "ibge": 2903409,
+    "municipio": "Belmonte"
+  },
+  {
+    "ibge": 2903508,
+    "municipio": "Belo Campo"
+  },
+  {
+    "ibge": 2903607,
+    "municipio": "Biritinga"
+  },
+  {
+    "ibge": 2903706,
+    "municipio": "Boa Nova"
+  },
+  {
+    "ibge": 2903805,
+    "municipio": "Boa Vista do Tupim"
+  },
+  {
+    "ibge": 2903904,
+    "municipio": "Bom Jesus da Lapa"
+  },
+  {
+    "ibge": 2903953,
+    "municipio": "Bom Jesus da Serra"
+  },
+  {
+    "ibge": 2904001,
+    "municipio": "Boninal"
+  },
+  {
+    "ibge": 2904050,
+    "municipio": "Bonito"
+  },
+  {
+    "ibge": 2904100,
+    "municipio": "Boquira"
+  },
+  {
+    "ibge": 2904209,
+    "municipio": "Botuporã"
+  },
+  {
+    "ibge": 2904308,
+    "municipio": "Brejões"
+  },
+  {
+    "ibge": 2904407,
+    "municipio": "Brejolândia"
+  },
+  {
+    "ibge": 2904506,
+    "municipio": "Brotas de Macaúbas"
+  },
+  {
+    "ibge": 2904605,
+    "municipio": "Brumado"
+  },
+  {
+    "ibge": 2904704,
+    "municipio": "Buerarema"
+  },
+  {
+    "ibge": 2904753,
+    "municipio": "Buritirama"
+  },
+  {
+    "ibge": 2904803,
+    "municipio": "Caatiba"
+  },
+  {
+    "ibge": 2904852,
+    "municipio": "Cabaceiras do Paraguaçu"
+  },
+  {
+    "ibge": 2904902,
+    "municipio": "Cachoeira"
+  },
+  {
+    "ibge": 2905008,
+    "municipio": "Caculé"
+  },
+  {
+    "ibge": 2905107,
+    "municipio": "Caém"
+  },
+  {
+    "ibge": 2905156,
+    "municipio": "Caetanos"
+  },
+  {
+    "ibge": 2905206,
+    "municipio": "Caetité"
+  },
+  {
+    "ibge": 2905305,
+    "municipio": "Cafarnaum"
+  },
+  {
+    "ibge": 2905404,
+    "municipio": "Cairu"
+  },
+  {
+    "ibge": 2905503,
+    "municipio": "Caldeirão Grande"
+  },
+  {
+    "ibge": 2905602,
+    "municipio": "Camacan"
+  },
+  {
+    "ibge": 2905701,
+    "municipio": "Camaçari"
+  },
+  {
+    "ibge": 2905800,
+    "municipio": "Camamu"
+  },
+  {
+    "ibge": 2905909,
+    "municipio": "Campo Alegre de Lourdes"
+  },
+  {
+    "ibge": 2906006,
+    "municipio": "Campo Formoso"
+  },
+  {
+    "ibge": 2906105,
+    "municipio": "Canápolis"
+  },
+  {
+    "ibge": 2906204,
+    "municipio": "Canarana"
+  },
+  {
+    "ibge": 2906303,
+    "municipio": "Canavieiras"
+  },
+  {
+    "ibge": 2906402,
+    "municipio": "Candeal"
+  },
+  {
+    "ibge": 2906501,
+    "municipio": "Candeias"
+  },
+  {
+    "ibge": 2906600,
+    "municipio": "Candiba"
+  },
+  {
+    "ibge": 2906709,
+    "municipio": "Cândido Sales"
+  },
+  {
+    "ibge": 2906808,
+    "municipio": "Cansanção"
+  },
+  {
+    "ibge": 2906824,
+    "municipio": "Canudos"
+  },
+  {
+    "ibge": 2906857,
+    "municipio": "Capela do Alto Alegre"
+  },
+  {
+    "ibge": 2906873,
+    "municipio": "Capim Grosso"
+  },
+  {
+    "ibge": 2906899,
+    "municipio": "Caraíbas"
+  },
+  {
+    "ibge": 2906907,
+    "municipio": "Caravelas"
+  },
+  {
+    "ibge": 2907004,
+    "municipio": "Cardeal da Silva"
+  },
+  {
+    "ibge": 2907103,
+    "municipio": "Carinhanha"
+  },
+  {
+    "ibge": 2907202,
+    "municipio": "Casa Nova"
+  },
+  {
+    "ibge": 2907301,
+    "municipio": "Castro Alves"
+  },
+  {
+    "ibge": 2907400,
+    "municipio": "Catolândia"
+  },
+  {
+    "ibge": 2907509,
+    "municipio": "Catu"
+  },
+  {
+    "ibge": 2907558,
+    "municipio": "Caturama"
+  },
+  {
+    "ibge": 2907608,
+    "municipio": "Central"
+  },
+  {
+    "ibge": 2907707,
+    "municipio": "Chorrochó"
+  },
+  {
+    "ibge": 2907806,
+    "municipio": "Cícero Dantas"
+  },
+  {
+    "ibge": 2907905,
+    "municipio": "Cipó"
+  },
+  {
+    "ibge": 2908002,
+    "municipio": "Coaraci"
+  },
+  {
+    "ibge": 2908101,
+    "municipio": "Cocos"
+  },
+  {
+    "ibge": 2908200,
+    "municipio": "Conceição da Feira"
+  },
+  {
+    "ibge": 2908309,
+    "municipio": "Conceição do Almeida"
+  },
+  {
+    "ibge": 2908408,
+    "municipio": "Conceição do Coité"
+  },
+  {
+    "ibge": 2908507,
+    "municipio": "Conceição do Jacuípe"
+  },
+  {
+    "ibge": 2908606,
+    "municipio": "Conde"
+  },
+  {
+    "ibge": 2908705,
+    "municipio": "Condeúba"
+  },
+  {
+    "ibge": 2908804,
+    "municipio": "Contendas do Sincorá"
+  },
+  {
+    "ibge": 2908903,
+    "municipio": "Coração de Maria"
+  },
+  {
+    "ibge": 2909000,
+    "municipio": "Cordeiros"
+  },
+  {
+    "ibge": 2909109,
+    "municipio": "Coribe"
+  },
+  {
+    "ibge": 2909208,
+    "municipio": "Coronel João Sá"
+  },
+  {
+    "ibge": 2909307,
+    "municipio": "Correntina"
+  },
+  {
+    "ibge": 2909406,
+    "municipio": "Cotegipe"
+  },
+  {
+    "ibge": 2909505,
+    "municipio": "Cravolândia"
+  },
+  {
+    "ibge": 2909604,
+    "municipio": "Crisópolis"
+  },
+  {
+    "ibge": 2909703,
+    "municipio": "Cristópolis"
+  },
+  {
+    "ibge": 2909802,
+    "municipio": "Cruz das Almas"
+  },
+  {
+    "ibge": 2909901,
+    "municipio": "Curaçá"
+  },
+  {
+    "ibge": 2910008,
+    "municipio": "Dário Meira"
+  },
+  {
+    "ibge": 2910057,
+    "municipio": "Dias d'Ávila"
+  },
+  {
+    "ibge": 2910107,
+    "municipio": "Dom Basílio"
+  },
+  {
+    "ibge": 2910206,
+    "municipio": "Dom Macedo Costa"
+  },
+  {
+    "ibge": 2910305,
+    "municipio": "Elísio Medrado"
+  },
+  {
+    "ibge": 2910404,
+    "municipio": "Encruzilhada"
+  },
+  {
+    "ibge": 2910503,
+    "municipio": "Entre Rios"
+  },
+  {
+    "ibge": 2910602,
+    "municipio": "Esplanada"
+  },
+  {
+    "ibge": 2910701,
+    "municipio": "Euclides da Cunha"
+  },
+  {
+    "ibge": 2910727,
+    "municipio": "Eunápolis"
+  },
+  {
+    "ibge": 2910750,
+    "municipio": "Fátima"
+  },
+  {
+    "ibge": 2910776,
+    "municipio": "Feira da Mata"
+  },
+  {
+    "ibge": 2910800,
+    "municipio": "Feira de Santana"
+  },
+  {
+    "ibge": 2910859,
+    "municipio": "Filadélfia"
+  },
+  {
+    "ibge": 2910909,
+    "municipio": "Firmino Alves"
+  },
+  {
+    "ibge": 2911006,
+    "municipio": "Floresta Azul"
+  },
+  {
+    "ibge": 2911105,
+    "municipio": "Formosa do Rio Preto"
+  },
+  {
+    "ibge": 2911204,
+    "municipio": "Gandu"
+  },
+  {
+    "ibge": 2911253,
+    "municipio": "Gavião"
+  },
+  {
+    "ibge": 2911303,
+    "municipio": "Gentio do Ouro"
+  },
+  {
+    "ibge": 2911402,
+    "municipio": "Glória"
+  },
+  {
+    "ibge": 2911501,
+    "municipio": "Gongogi"
+  },
+  {
+    "ibge": 2911600,
+    "municipio": "Governador Mangabeira"
+  },
+  {
+    "ibge": 2911659,
+    "municipio": "Guajeru"
+  },
+  {
+    "ibge": 2911709,
+    "municipio": "Guanambi"
+  },
+  {
+    "ibge": 2911808,
+    "municipio": "Guaratinga"
+  },
+  {
+    "ibge": 2911857,
+    "municipio": "Heliópolis"
+  },
+  {
+    "ibge": 2911907,
+    "municipio": "Iaçu"
+  },
+  {
+    "ibge": 2912004,
+    "municipio": "Ibiassucê"
+  },
+  {
+    "ibge": 2912103,
+    "municipio": "Ibicaraí"
+  },
+  {
+    "ibge": 2912202,
+    "municipio": "Ibicoara"
+  },
+  {
+    "ibge": 2912301,
+    "municipio": "Ibicuí"
+  },
+  {
+    "ibge": 2912400,
+    "municipio": "Ibipeba"
+  },
+  {
+    "ibge": 2912509,
+    "municipio": "Ibipitanga"
+  },
+  {
+    "ibge": 2912608,
+    "municipio": "Ibiquera"
+  },
+  {
+    "ibge": 2912707,
+    "municipio": "Ibirapitanga"
+  },
+  {
+    "ibge": 2912806,
+    "municipio": "Ibirapuã"
+  },
+  {
+    "ibge": 2912905,
+    "municipio": "Ibirataia"
+  },
+  {
+    "ibge": 2913002,
+    "municipio": "Ibitiara"
+  },
+  {
+    "ibge": 2913101,
+    "municipio": "Ibititá"
+  },
+  {
+    "ibge": 2913200,
+    "municipio": "Ibotirama"
+  },
+  {
+    "ibge": 2913309,
+    "municipio": "Ichu"
+  },
+  {
+    "ibge": 2913408,
+    "municipio": "Igaporã"
+  },
+  {
+    "ibge": 2913457,
+    "municipio": "Igrapiúna"
+  },
+  {
+    "ibge": 2913507,
+    "municipio": "Iguaí"
+  },
+  {
+    "ibge": 2913606,
+    "municipio": "Ilhéus"
+  },
+  {
+    "ibge": 2913705,
+    "municipio": "Inhambupe"
+  },
+  {
+    "ibge": 2913804,
+    "municipio": "Ipecaetá"
+  },
+  {
+    "ibge": 2913903,
+    "municipio": "Ipiaú"
+  },
+  {
+    "ibge": 2914000,
+    "municipio": "Ipirá"
+  },
+  {
+    "ibge": 2914109,
+    "municipio": "Ipupiara"
+  },
+  {
+    "ibge": 2914208,
+    "municipio": "Irajuba"
+  },
+  {
+    "ibge": 2914307,
+    "municipio": "Iramaia"
+  },
+  {
+    "ibge": 2914406,
+    "municipio": "Iraquara"
+  },
+  {
+    "ibge": 2914505,
+    "municipio": "Irará"
+  },
+  {
+    "ibge": 2914604,
+    "municipio": "Irecê"
+  },
+  {
+    "ibge": 2914653,
+    "municipio": "Itabela"
+  },
+  {
+    "ibge": 2914703,
+    "municipio": "Itaberaba"
+  },
+  {
+    "ibge": 2914802,
+    "municipio": "Itabuna"
+  },
+  {
+    "ibge": 2914901,
+    "municipio": "Itacaré"
+  },
+  {
+    "ibge": 2915007,
+    "municipio": "Itaeté"
+  },
+  {
+    "ibge": 2915106,
+    "municipio": "Itagi"
+  },
+  {
+    "ibge": 2915205,
+    "municipio": "Itagibá"
+  },
+  {
+    "ibge": 2915304,
+    "municipio": "Itagimirim"
+  },
+  {
+    "ibge": 2915353,
+    "municipio": "Itaguaçu da Bahia"
+  },
+  {
+    "ibge": 2915403,
+    "municipio": "Itaju do Colônia"
+  },
+  {
+    "ibge": 2915502,
+    "municipio": "Itajuípe"
+  },
+  {
+    "ibge": 2915601,
+    "municipio": "Itamaraju"
+  },
+  {
+    "ibge": 2915700,
+    "municipio": "Itamari"
+  },
+  {
+    "ibge": 2915809,
+    "municipio": "Itambé"
+  },
+  {
+    "ibge": 2915908,
+    "municipio": "Itanagra"
+  },
+  {
+    "ibge": 2916005,
+    "municipio": "Itanhém"
+  },
+  {
+    "ibge": 2916104,
+    "municipio": "Itaparica"
+  },
+  {
+    "ibge": 2916203,
+    "municipio": "Itapé"
+  },
+  {
+    "ibge": 2916302,
+    "municipio": "Itapebi"
+  },
+  {
+    "ibge": 2916401,
+    "municipio": "Itapetinga"
+  },
+  {
+    "ibge": 2916500,
+    "municipio": "Itapicuru"
+  },
+  {
+    "ibge": 2916609,
+    "municipio": "Itapitanga"
+  },
+  {
+    "ibge": 2916708,
+    "municipio": "Itaquara"
+  },
+  {
+    "ibge": 2916807,
+    "municipio": "Itarantim"
+  },
+  {
+    "ibge": 2916856,
+    "municipio": "Itatim"
+  },
+  {
+    "ibge": 2916906,
+    "municipio": "Itiruçu"
+  },
+  {
+    "ibge": 2917003,
+    "municipio": "Itiúba"
+  },
+  {
+    "ibge": 2917102,
+    "municipio": "Itororó"
+  },
+  {
+    "ibge": 2917201,
+    "municipio": "Ituaçu"
+  },
+  {
+    "ibge": 2917300,
+    "municipio": "Ituberá"
+  },
+  {
+    "ibge": 2917334,
+    "municipio": "Iuiu"
+  },
+  {
+    "ibge": 2917359,
+    "municipio": "Jaborandi"
+  },
+  {
+    "ibge": 2917409,
+    "municipio": "Jacaraci"
+  },
+  {
+    "ibge": 2917508,
+    "municipio": "Jacobina"
+  },
+  {
+    "ibge": 2917607,
+    "municipio": "Jaguaquara"
+  },
+  {
+    "ibge": 2917706,
+    "municipio": "Jaguarari"
+  },
+  {
+    "ibge": 2917805,
+    "municipio": "Jaguaripe"
+  },
+  {
+    "ibge": 2917904,
+    "municipio": "Jandaíra"
+  },
+  {
+    "ibge": 2918001,
+    "municipio": "Jequié"
+  },
+  {
+    "ibge": 2918100,
+    "municipio": "Jeremoabo"
+  },
+  {
+    "ibge": 2918209,
+    "municipio": "Jiquiriçá"
+  },
+  {
+    "ibge": 2918308,
+    "municipio": "Jitaúna"
+  },
+  {
+    "ibge": 2918357,
+    "municipio": "João Dourado"
+  },
+  {
+    "ibge": 2918407,
+    "municipio": "Juazeiro"
+  },
+  {
+    "ibge": 2918456,
+    "municipio": "Jucuruçu"
+  },
+  {
+    "ibge": 2918506,
+    "municipio": "Jussara"
+  },
+  {
+    "ibge": 2918555,
+    "municipio": "Jussari"
+  },
+  {
+    "ibge": 2918605,
+    "municipio": "Jussiape"
+  },
+  {
+    "ibge": 2918704,
+    "municipio": "Lafaiete Coutinho"
+  },
+  {
+    "ibge": 2918753,
+    "municipio": "Lagoa Real"
+  },
+  {
+    "ibge": 2918803,
+    "municipio": "Laje"
+  },
+  {
+    "ibge": 2918902,
+    "municipio": "Lajedão"
+  },
+  {
+    "ibge": 2919009,
+    "municipio": "Lajedinho"
+  },
+  {
+    "ibge": 2919058,
+    "municipio": "Lajedo do Tabocal"
+  },
+  {
+    "ibge": 2919108,
+    "municipio": "Lamarão"
+  },
+  {
+    "ibge": 2919157,
+    "municipio": "Lapão"
+  },
+  {
+    "ibge": 2919207,
+    "municipio": "Lauro de Freitas"
+  },
+  {
+    "ibge": 2919306,
+    "municipio": "Lençóis"
+  },
+  {
+    "ibge": 2919405,
+    "municipio": "Licínio de Almeida"
+  },
+  {
+    "ibge": 2919504,
+    "municipio": "Livramento de Nossa Senhora"
+  },
+  {
+    "ibge": 2919553,
+    "municipio": "Luís Eduardo Magalhães"
+  },
+  {
+    "ibge": 2919603,
+    "municipio": "Macajuba"
+  },
+  {
+    "ibge": 2919702,
+    "municipio": "Macarani"
+  },
+  {
+    "ibge": 2919801,
+    "municipio": "Macaúbas"
+  },
+  {
+    "ibge": 2919900,
+    "municipio": "Macururé"
+  },
+  {
+    "ibge": 2919926,
+    "municipio": "Madre de Deus"
+  },
+  {
+    "ibge": 2919959,
+    "municipio": "Maetinga"
+  },
+  {
+    "ibge": 2920007,
+    "municipio": "Maiquinique"
+  },
+  {
+    "ibge": 2920106,
+    "municipio": "Mairi"
+  },
+  {
+    "ibge": 2920205,
+    "municipio": "Malhada"
+  },
+  {
+    "ibge": 2920304,
+    "municipio": "Malhada de Pedras"
+  },
+  {
+    "ibge": 2920403,
+    "municipio": "Manoel Vitorino"
+  },
+  {
+    "ibge": 2920452,
+    "municipio": "Mansidão"
+  },
+  {
+    "ibge": 2920502,
+    "municipio": "Maracás"
+  },
+  {
+    "ibge": 2920601,
+    "municipio": "Maragogipe"
+  },
+  {
+    "ibge": 2920700,
+    "municipio": "Maraú"
+  },
+  {
+    "ibge": 2920809,
+    "municipio": "Marcionílio Souza"
+  },
+  {
+    "ibge": 2920908,
+    "municipio": "Mascote"
+  },
+  {
+    "ibge": 2921005,
+    "municipio": "Mata de São João"
+  },
+  {
+    "ibge": 2921054,
+    "municipio": "Matina"
+  },
+  {
+    "ibge": 2921104,
+    "municipio": "Medeiros Neto"
+  },
+  {
+    "ibge": 2921203,
+    "municipio": "Miguel Calmon"
+  },
+  {
+    "ibge": 2921302,
+    "municipio": "Milagres"
+  },
+  {
+    "ibge": 2921401,
+    "municipio": "Mirangaba"
+  },
+  {
+    "ibge": 2921450,
+    "municipio": "Mirante"
+  },
+  {
+    "ibge": 2921500,
+    "municipio": "Monte Santo"
+  },
+  {
+    "ibge": 2921609,
+    "municipio": "Morpará"
+  },
+  {
+    "ibge": 2921708,
+    "municipio": "Morro do Chapéu"
+  },
+  {
+    "ibge": 2921807,
+    "municipio": "Mortugaba"
+  },
+  {
+    "ibge": 2921906,
+    "municipio": "Mucugê"
+  },
+  {
+    "ibge": 2922003,
+    "municipio": "Mucuri"
+  },
+  {
+    "ibge": 2922052,
+    "municipio": "Mulungu do Morro"
+  },
+  {
+    "ibge": 2922102,
+    "municipio": "Mundo Novo"
+  },
+  {
+    "ibge": 2922201,
+    "municipio": "Muniz Ferreira"
+  },
+  {
+    "ibge": 2922250,
+    "municipio": "Muquém do São Francisco"
+  },
+  {
+    "ibge": 2922300,
+    "municipio": "Muritiba"
+  },
+  {
+    "ibge": 2922409,
+    "municipio": "Mutuípe"
+  },
+  {
+    "ibge": 2922508,
+    "municipio": "Nazaré"
+  },
+  {
+    "ibge": 2922607,
+    "municipio": "Nilo Peçanha"
+  },
+  {
+    "ibge": 2922656,
+    "municipio": "Nordestina"
+  },
+  {
+    "ibge": 2922706,
+    "municipio": "Nova Canaã"
+  },
+  {
+    "ibge": 2922730,
+    "municipio": "Nova Fátima"
+  },
+  {
+    "ibge": 2922755,
+    "municipio": "Nova Ibiá"
+  },
+  {
+    "ibge": 2922805,
+    "municipio": "Nova Itarana"
+  },
+  {
+    "ibge": 2922854,
+    "municipio": "Nova Redenção"
+  },
+  {
+    "ibge": 2922904,
+    "municipio": "Nova Soure"
+  },
+  {
+    "ibge": 2923001,
+    "municipio": "Nova Viçosa"
+  },
+  {
+    "ibge": 2923035,
+    "municipio": "Novo Horizonte"
+  },
+  {
+    "ibge": 2923050,
+    "municipio": "Novo Triunfo"
+  },
+  {
+    "ibge": 2923100,
+    "municipio": "Olindina"
+  },
+  {
+    "ibge": 2923209,
+    "municipio": "Oliveira dos Brejinhos"
+  },
+  {
+    "ibge": 2923308,
+    "municipio": "Ouriçangas"
+  },
+  {
+    "ibge": 2923357,
+    "municipio": "Ourolândia"
+  },
+  {
+    "ibge": 2923407,
+    "municipio": "Palmas de Monte Alto"
+  },
+  {
+    "ibge": 2923506,
+    "municipio": "Palmeiras"
+  },
+  {
+    "ibge": 2923605,
+    "municipio": "Paramirim"
+  },
+  {
+    "ibge": 2923704,
+    "municipio": "Paratinga"
+  },
+  {
+    "ibge": 2923803,
+    "municipio": "Paripiranga"
+  },
+  {
+    "ibge": 2923902,
+    "municipio": "Pau Brasil"
+  },
+  {
+    "ibge": 2924009,
+    "municipio": "Paulo Afonso"
+  },
+  {
+    "ibge": 2924058,
+    "municipio": "Pé de Serra"
+  },
+  {
+    "ibge": 2924108,
+    "municipio": "Pedrão"
+  },
+  {
+    "ibge": 2924207,
+    "municipio": "Pedro Alexandre"
+  },
+  {
+    "ibge": 2924306,
+    "municipio": "Piatã"
+  },
+  {
+    "ibge": 2924405,
+    "municipio": "Pilão Arcado"
+  },
+  {
+    "ibge": 2924504,
+    "municipio": "Pindaí"
+  },
+  {
+    "ibge": 2924603,
+    "municipio": "Pindobaçu"
+  },
+  {
+    "ibge": 2924652,
+    "municipio": "Pintadas"
+  },
+  {
+    "ibge": 2924678,
+    "municipio": "Piraí do Norte"
+  },
+  {
+    "ibge": 2924702,
+    "municipio": "Piripá"
+  },
+  {
+    "ibge": 2924801,
+    "municipio": "Piritiba"
+  },
+  {
+    "ibge": 2924900,
+    "municipio": "Planaltino"
+  },
+  {
+    "ibge": 2925006,
+    "municipio": "Planalto"
+  },
+  {
+    "ibge": 2925105,
+    "municipio": "Poções"
+  },
+  {
+    "ibge": 2925204,
+    "municipio": "Pojuca"
+  },
+  {
+    "ibge": 2925253,
+    "municipio": "Ponto Novo"
+  },
+  {
+    "ibge": 2925303,
+    "municipio": "Porto Seguro"
+  },
+  {
+    "ibge": 2925402,
+    "municipio": "Potiraguá"
+  },
+  {
+    "ibge": 2925501,
+    "municipio": "Prado"
+  },
+  {
+    "ibge": 2925600,
+    "municipio": "Presidente Dutra"
+  },
+  {
+    "ibge": 2925709,
+    "municipio": "Presidente Jânio Quadros"
+  },
+  {
+    "ibge": 2925758,
+    "municipio": "Presidente Tancredo Neves"
+  },
+  {
+    "ibge": 2925808,
+    "municipio": "Queimadas"
+  },
+  {
+    "ibge": 2925907,
+    "municipio": "Quijingue"
+  },
+  {
+    "ibge": 2925931,
+    "municipio": "Quixabeira"
+  },
+  {
+    "ibge": 2925956,
+    "municipio": "Rafael Jambeiro"
+  },
+  {
+    "ibge": 2926004,
+    "municipio": "Remanso"
+  },
+  {
+    "ibge": 2926103,
+    "municipio": "Retirolândia"
+  },
+  {
+    "ibge": 2926202,
+    "municipio": "Riachão das Neves"
+  },
+  {
+    "ibge": 2926301,
+    "municipio": "Riachão do Jacuípe"
+  },
+  {
+    "ibge": 2926400,
+    "municipio": "Riacho de Santana"
+  },
+  {
+    "ibge": 2926509,
+    "municipio": "Ribeira do Amparo"
+  },
+  {
+    "ibge": 2926608,
+    "municipio": "Ribeira do Pombal"
+  },
+  {
+    "ibge": 2926657,
+    "municipio": "Ribeirão do Largo"
+  },
+  {
+    "ibge": 2926707,
+    "municipio": "Rio de Contas"
+  },
+  {
+    "ibge": 2926806,
+    "municipio": "Rio do Antônio"
+  },
+  {
+    "ibge": 2926905,
+    "municipio": "Rio do Pires"
+  },
+  {
+    "ibge": 2927002,
+    "municipio": "Rio Real"
+  },
+  {
+    "ibge": 2927101,
+    "municipio": "Rodelas"
+  },
+  {
+    "ibge": 2927200,
+    "municipio": "Ruy Barbosa"
+  },
+  {
+    "ibge": 2927309,
+    "municipio": "Salinas da Margarida"
+  },
+  {
+    "ibge": 2927408,
+    "municipio": "Salvador"
+  },
+  {
+    "ibge": 2927507,
+    "municipio": "Santa Bárbara"
+  },
+  {
+    "ibge": 2927606,
+    "municipio": "Santa Brígida"
+  },
+  {
+    "ibge": 2927705,
+    "municipio": "Santa Cruz Cabrália"
+  },
+  {
+    "ibge": 2927804,
+    "municipio": "Santa Cruz da Vitória"
+  },
+  {
+    "ibge": 2927903,
+    "municipio": "Santa Inês"
+  },
+  {
+    "ibge": 2928000,
+    "municipio": "Santaluz"
+  },
+  {
+    "ibge": 2928059,
+    "municipio": "Santa Luzia"
+  },
+  {
+    "ibge": 2928109,
+    "municipio": "Santa Maria da Vitória"
+  },
+  {
+    "ibge": 2928208,
+    "municipio": "Santana"
+  },
+  {
+    "ibge": 2928307,
+    "municipio": "Santanópolis"
+  },
+  {
+    "ibge": 2928406,
+    "municipio": "Santa Rita de Cássia"
+  },
+  {
+    "ibge": 2928505,
+    "municipio": "Santa Terezinha"
+  },
+  {
+    "ibge": 2928604,
+    "municipio": "Santo Amaro"
+  },
+  {
+    "ibge": 2928703,
+    "municipio": "Santo Antônio de Jesus"
+  },
+  {
+    "ibge": 2928802,
+    "municipio": "Santo Estêvão"
+  },
+  {
+    "ibge": 2928901,
+    "municipio": "São Desidério"
+  },
+  {
+    "ibge": 2928950,
+    "municipio": "São Domingos"
+  },
+  {
+    "ibge": 2929008,
+    "municipio": "São Félix"
+  },
+  {
+    "ibge": 2929057,
+    "municipio": "São Félix do Coribe"
+  },
+  {
+    "ibge": 2929107,
+    "municipio": "São Felipe"
+  },
+  {
+    "ibge": 2929206,
+    "municipio": "São Francisco do Conde"
+  },
+  {
+    "ibge": 2929255,
+    "municipio": "São Gabriel"
+  },
+  {
+    "ibge": 2929305,
+    "municipio": "São Gonçalo dos Campos"
+  },
+  {
+    "ibge": 2929354,
+    "municipio": "São José da Vitória"
+  },
+  {
+    "ibge": 2929370,
+    "municipio": "São José do Jacuípe"
+  },
+  {
+    "ibge": 2929404,
+    "municipio": "São Miguel das Matas"
+  },
+  {
+    "ibge": 2929503,
+    "municipio": "São Sebastião do Passé"
+  },
+  {
+    "ibge": 2929602,
+    "municipio": "Sapeaçu"
+  },
+  {
+    "ibge": 2929701,
+    "municipio": "Sátiro Dias"
+  },
+  {
+    "ibge": 2929750,
+    "municipio": "Saubara"
+  },
+  {
+    "ibge": 2929800,
+    "municipio": "Saúde"
+  },
+  {
+    "ibge": 2929909,
+    "municipio": "Seabra"
+  },
+  {
+    "ibge": 2930006,
+    "municipio": "Sebastião Laranjeiras"
+  },
+  {
+    "ibge": 2930105,
+    "municipio": "Senhor do Bonfim"
+  },
+  {
+    "ibge": 2930154,
+    "municipio": "Serra do Ramalho"
+  },
+  {
+    "ibge": 2930204,
+    "municipio": "Sento Sé"
+  },
+  {
+    "ibge": 2930303,
+    "municipio": "Serra Dourada"
+  },
+  {
+    "ibge": 2930402,
+    "municipio": "Serra Preta"
+  },
+  {
+    "ibge": 2930501,
+    "municipio": "Serrinha"
+  },
+  {
+    "ibge": 2930600,
+    "municipio": "Serrolândia"
+  },
+  {
+    "ibge": 2930709,
+    "municipio": "Simões Filho"
+  },
+  {
+    "ibge": 2930758,
+    "municipio": "Sítio do Mato"
+  },
+  {
+    "ibge": 2930766,
+    "municipio": "Sítio do Quinto"
+  },
+  {
+    "ibge": 2930774,
+    "municipio": "Sobradinho"
+  },
+  {
+    "ibge": 2930808,
+    "municipio": "Souto Soares"
+  },
+  {
+    "ibge": 2930907,
+    "municipio": "Tabocas do Brejo Velho"
+  },
+  {
+    "ibge": 2931004,
+    "municipio": "Tanhaçu"
+  },
+  {
+    "ibge": 2931053,
+    "municipio": "Tanque Novo"
+  },
+  {
+    "ibge": 2931103,
+    "municipio": "Tanquinho"
+  },
+  {
+    "ibge": 2931202,
+    "municipio": "Taperoá"
+  },
+  {
+    "ibge": 2931301,
+    "municipio": "Tapiramutá"
+  },
+  {
+    "ibge": 2931350,
+    "municipio": "Teixeira de Freitas"
+  },
+  {
+    "ibge": 2931400,
+    "municipio": "Teodoro Sampaio"
+  },
+  {
+    "ibge": 2931509,
+    "municipio": "Teofilândia"
+  },
+  {
+    "ibge": 2931608,
+    "municipio": "Teolândia"
+  },
+  {
+    "ibge": 2931707,
+    "municipio": "Terra Nova"
+  },
+  {
+    "ibge": 2931806,
+    "municipio": "Tremedal"
+  },
+  {
+    "ibge": 2931905,
+    "municipio": "Tucano"
+  },
+  {
+    "ibge": 2932002,
+    "municipio": "Uauá"
+  },
+  {
+    "ibge": 2932101,
+    "municipio": "Ubaíra"
+  },
+  {
+    "ibge": 2932200,
+    "municipio": "Ubaitaba"
+  },
+  {
+    "ibge": 2932309,
+    "municipio": "Ubatã"
+  },
+  {
+    "ibge": 2932408,
+    "municipio": "Uibaí"
+  },
+  {
+    "ibge": 2932457,
+    "municipio": "Umburanas"
+  },
+  {
+    "ibge": 2932507,
+    "municipio": "Una"
+  },
+  {
+    "ibge": 2932606,
+    "municipio": "Urandi"
+  },
+  {
+    "ibge": 2932705,
+    "municipio": "Uruçuca"
+  },
+  {
+    "ibge": 2932804,
+    "municipio": "Utinga"
+  },
+  {
+    "ibge": 2932903,
+    "municipio": "Valença"
+  },
+  {
+    "ibge": 2933000,
+    "municipio": "Valente"
+  },
+  {
+    "ibge": 2933059,
+    "municipio": "Várzea da Roça"
+  },
+  {
+    "ibge": 2933109,
+    "municipio": "Várzea do Poço"
+  },
+  {
+    "ibge": 2933158,
+    "municipio": "Várzea Nova"
+  },
+  {
+    "ibge": 2933174,
+    "municipio": "Varzedo"
+  },
+  {
+    "ibge": 2933208,
+    "municipio": "Vera Cruz"
+  },
+  {
+    "ibge": 2933257,
+    "municipio": "Vereda"
+  },
+  {
+    "ibge": 2933307,
+    "municipio": "Vitória da Conquista"
+  },
+  {
+    "ibge": 2933406,
+    "municipio": "Wagner"
+  },
+  {
+    "ibge": 2933455,
+    "municipio": "Wanderley"
+  },
+  {
+    "ibge": 2933505,
+    "municipio": "Wenceslau Guimarães"
+  },
+  {
+    "ibge": 2933604,
+    "municipio": "Xique-Xique"
+  }
+]

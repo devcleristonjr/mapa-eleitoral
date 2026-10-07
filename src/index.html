@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f6f3">
+    <meta name="description" content="Mapa interativo dos resultados eleitorais nos municípios da Bahia.">
+    <title>Atlas Eleitoral da Bahia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main class="atlas-shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Dados eleitorais · Bahia</p>
+          <h1>Atlas Eleitoral <span>da Bahia</span></h1>
+        </div>
+        <p class="source-note">417 municípios<br><span>Resultados por município</span></p>
+      </header>
+
+      <section class="controls" aria-label="Controles do mapa">
+        <fieldset class="year-control">
+          <legend class="control-label">Ano</legend>
+          <button class="year-button" type="button" data-year="2022" aria-pressed="false">2022</button>
+          <button class="year-button is-active" type="button" data-year="2026" aria-pressed="true">2026</button>
+        </fieldset>
+        <fieldset class="election-control">
+          <legend class="control-label">Eleição</legend>
+          <button class="election-button is-active" type="button" data-election="presidente" aria-pressed="true">Presidente</button>
+          <button class="election-button" type="button" data-election="governador" aria-pressed="false">Governador</button>
+        </fieldset>
+        <form class="search-control" id="search-form" role="search">
+          <label class="visually-hidden" for="municipality-search">Buscar município</label>
+          <input id="municipality-search" name="municipio" type="search" list="municipality-options" placeholder="Buscar município" autocomplete="off">
+          <datalist id="municipality-options"></datalist>
+          <button class="search-button" type="submit" aria-label="Buscar município" title="Buscar município">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m16 16 4.2 4.2"></path></svg>
+          </button>
+        </form>
+        <button class="reset-button" id="reset-map" type="button">Voltar para Bahia</button>
+      </section>
+
+      <section class="dashboard" aria-label="Resumo da eleição">
+        <div class="metric"><span class="metric-value" id="metric-count">--</span><span class="metric-label">Municípios</span></div>
+        <div class="metric"><span class="metric-value" id="metric-max">--</span><span class="metric-label">Maior percentual</span><span class="metric-detail" id="metric-max-city"></span></div>
+        <div class="metric"><span class="metric-value" id="metric-min">--</span><span class="metric-label">Menor percentual</span><span class="metric-detail" id="metric-min-city"></span></div>
+        <div class="metric"><span class="metric-value" id="metric-average">--</span><span class="metric-label">Média</span></div>
+        <div class="metric"><span class="metric-value" id="metric-above">--</span><span class="metric-label">Acima de 75%</span></div>
+      </section>
+
+      <section class="map-layout" aria-label="Mapa eleitoral da Bahia">
+        <div class="map-column">
+          <div class="map-heading">
+            <h2>Votação por município</h2>
+            <output id="map-status" aria-live="polite">Carregando dados…</output>
+          </div>
+          <div id="map" role="application" aria-label="Mapa interativo dos municípios da Bahia"></div>
+          <div class="legend" aria-label="Legenda de percentual de votos">
+            <div class="legend-heading"><span>Percentual de votos</span><span id="legend-election">Presidente</span></div>
+            <div class="legend-groups">
+              <div class="legend-group">
+                <span class="legend-candidate" id="legend-red-name">Lula</span>
+                <div class="legend-scale legend-scale-red" aria-hidden="true"></div>
+                <div class="legend-values"><span>0%</span><span>100%</span></div>
+              </div>
+              <div class="legend-group">
+                <span class="legend-candidate" id="legend-blue-name">Flávio Bolsonaro</span>
+                <div class="legend-scale legend-scale-blue" aria-hidden="true"></div>
+                <div class="legend-values"><span>0%</span><span>100%</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="map-attribution">Malha municipal: IBGE · Dados eleitorais: planilha fornecida</p>
+        </div>
+
+        <aside class="municipality-panel" id="municipality-panel" aria-labelledby="panel-title" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Município selecionado</p>
+              <h2 id="panel-title">Explore o mapa</h2>
+            </div>
+            <button class="panel-close" id="close-panel" type="button" aria-label="Fechar painel" title="Fechar painel">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+            </button>
+          </div>
+          <p class="panel-hint" id="panel-hint">Selecione um município para ver os dados da eleição.</p>
+          <div class="panel-content" id="panel-content" hidden>
+            <div class="elector-count"><span id="panel-turnout-label">Eleitores</span><strong id="panel-electors">Dados não disponíveis</strong></div>
+            <section class="election-result">
+              <h3>Presidente</h3>
+              <p class="result-candidate" id="panel-president-candidate">Dados não disponíveis</p>
+              <strong class="result-percent" id="panel-president-percent">Dados não disponíveis</strong>
+              <p class="result-details" id="panel-president-details"></p>
+            </section>
+            <section class="election-result">
+              <h3>Governador</h3>
+              <p class="result-candidate" id="panel-governor-candidate">Dados não disponíveis</p>
+              <strong class="result-percent" id="panel-governor-percent">Dados não disponíveis</strong>
+              <p class="result-details" id="panel-governor-details"></p>
+            </section>
+            <div class="ibge-code"><span>Código IBGE</span><strong id="panel-ibge">Dados não disponíveis</strong></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
