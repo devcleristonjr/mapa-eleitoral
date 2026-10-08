@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
     <script type="module" src="app.js"></script>
   </head>
   <body>
@@ -26,15 +28,21 @@
 
       <section class="controls" aria-label="Controles do mapa">
         <fieldset class="year-control">
-          <legend class="control-label">Ano</legend>
-          <button class="year-button" type="button" data-year="2022" aria-pressed="false">2022</button>
-          <button class="year-button is-active" type="button" data-year="2026" aria-pressed="true">2026</button>
+          <legend class="control-label">Turno</legend>
+          <button class="year-button" type="button" data-year="2022" aria-pressed="false">2022 · 2º turno</button>
+          <button class="year-button is-active" type="button" data-year="2026" aria-pressed="true">2026 · 1º turno</button>
         </fieldset>
         <fieldset class="election-control">
-          <legend class="control-label">Eleição</legend>
+          <legend class="control-label">Cargo</legend>
           <button class="election-button is-active" type="button" data-election="presidente" aria-pressed="true">Presidente</button>
           <button class="election-button" type="button" data-election="governador" aria-pressed="false">Governador</button>
         </fieldset>
+        <label class="territory-filter" for="territory-filter">
+          <span class="control-label">Território</span>
+          <select id="territory-filter" name="territorio">
+            <option value="todos">Todos os territórios</option>
+          </select>
+        </label>
         <form class="search-control" id="search-form" role="search">
           <label class="visually-hidden" for="municipality-search">Buscar município</label>
           <input id="municipality-search" name="municipio" type="search" list="municipality-options" placeholder="Buscar município" autocomplete="off">
@@ -91,22 +99,69 @@
           </div>
           <p class="panel-hint" id="panel-hint">Selecione um município para ver os dados da eleição.</p>
           <div class="panel-content" id="panel-content" hidden>
+            <div class="territory-name"><span>Território de identidade</span><strong id="panel-territory">Dados não disponíveis</strong></div>
             <div class="elector-count"><span id="panel-turnout-label">Eleitores</span><strong id="panel-electors">Dados não disponíveis</strong></div>
             <section class="election-result">
               <h3>Presidente</h3>
               <p class="result-candidate" id="panel-president-candidate">Dados não disponíveis</p>
               <strong class="result-percent" id="panel-president-percent">Dados não disponíveis</strong>
-              <p class="result-details" id="panel-president-details"></p>
+              <div class="result-details" id="panel-president-details"></div>
             </section>
             <section class="election-result">
               <h3>Governador</h3>
               <p class="result-candidate" id="panel-governor-candidate">Dados não disponíveis</p>
               <strong class="result-percent" id="panel-governor-percent">Dados não disponíveis</strong>
-              <p class="result-details" id="panel-governor-details"></p>
+              <div class="result-details" id="panel-governor-details"></div>
             </section>
             <div class="ibge-code"><span>Código IBGE</span><strong id="panel-ibge">Dados não disponíveis</strong></div>
           </div>
         </aside>
+      </section>
+
+      <section class="analytics-section" aria-labelledby="analytics-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Eleitorado</p>
+            <h2 id="analytics-title">10 maiores eleitorados</h2>
+          </div>
+          <span id="chart-year" class="section-meta">2026 · 1º turno</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="electorate-chart" role="img" aria-label="Gráfico dos dez municípios com maior eleitorado"></canvas>
+          <p id="chart-status" class="chart-status" hidden></p>
+        </div>
+      </section>
+
+      <section class="results-section" aria-labelledby="results-title">
+        <div class="section-heading results-heading">
+          <div>
+            <p class="eyebrow">Bahia · 2º turno</p>
+            <h2 id="results-title">Resumo por município</h2>
+            <p class="results-subtitle">Votos por candidato · 2022</p>
+          </div>
+          <div class="results-actions">
+            <span id="table-count" class="section-meta">417 municípios</span>
+            <button id="download-excel" class="download-button" type="button" title="Baixar os resultados visíveis em Excel">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"></path></svg>
+              <span>Baixar Excel</span>
+            </button>
+          </div>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Resultados eleitorais por município" tabindex="0">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th scope="col" aria-sort="ascending"><button class="table-sort" type="button" data-sort-key="municipio">Município <span aria-hidden="true">↕</span></button></th>
+                <th scope="col"><button class="table-sort candidate-lula" type="button" data-sort-key="lula">Lula <span aria-hidden="true">↕</span></button></th>
+                <th scope="col"><button class="table-sort candidate-bolsonaro" type="button" data-sort-key="bolsonaro">Bolsonaro <span aria-hidden="true">↕</span></button></th>
+                <th scope="col"><button class="table-sort candidate-jeronimo" type="button" data-sort-key="jeronimo">Jerônimo <span aria-hidden="true">↕</span></button></th>
+                <th scope="col"><button class="table-sort candidate-acm" type="button" data-sort-key="acm">ACM Neto <span aria-hidden="true">↕</span></button></th>
+              </tr>
+            </thead>
+            <tbody id="results-table-body"></tbody>
+          </table>
+          <p id="table-empty" class="table-empty" hidden>Nenhum município neste território.</p>
+        </div>
       </section>
     </main>
   </body>

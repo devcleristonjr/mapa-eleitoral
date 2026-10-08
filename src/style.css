@@ -125,6 +125,19 @@ h1 span { color: var(--green); }
 .election-button:hover { background: #e8eeea; color: var(--ink); }
 .election-button.is-active { background: var(--ink); color: white; }
 
+.territory-filter { display: flex; flex: 0 1 220px; flex-direction: column; gap: 4px; min-width: 155px; }
+.territory-filter .control-label { margin: 0; }
+.territory-filter select {
+  width: 100%;
+  height: 36px;
+  padding: 0 28px 0 9px;
+  border: 1px solid #cbd6d0;
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 11px;
+}
+
 .search-control {
   display: flex;
   width: min(320px, 100%);
@@ -211,6 +224,7 @@ h1 span { color: var(--green); }
 #map path.leaflet-interactive.is-selected.is-hover {
   filter: drop-shadow(0 8px 8px #0f241c55) drop-shadow(0 0 10px #2f8f6a99);
 }
+#map path.leaflet-interactive.is-filtered-out { pointer-events: none; }
 #map path.leaflet-interactive:focus-visible { outline: none; filter: drop-shadow(0 0 6px #2f8f6a); }
 .leaflet-container { font-family: "DM Sans", sans-serif; background: transparent; }
 .leaflet-control-zoom a { color: var(--ink) !important; }
@@ -294,15 +308,72 @@ h1 span { color: var(--green); }
 .panel-heading h2 { margin: 0; font-family: "Newsreader", Georgia, serif; font-size: 23px; font-weight: 500; line-height: 1.1; }
 .panel-close { display: none; width: 34px; min-height: 34px; flex: 0 0 auto; place-items: center; color: var(--muted); }
 .panel-hint { margin: 20px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
-.elector-count, .ibge-code { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
-.elector-count span, .ibge-code span { color: var(--muted); font-size: 10px; }
-.elector-count strong, .ibge-code strong { font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+.territory-name, .elector-count, .ibge-code { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.territory-name span, .elector-count span, .ibge-code span { color: var(--muted); font-size: 10px; }
+.territory-name strong, .elector-count strong, .ibge-code strong { font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
 .election-result { padding: 14px 0 11px; border-bottom: 1px solid var(--line); }
 .election-result h3 { margin: 0 0 7px; color: var(--green); font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; }
 .result-candidate { display: inline-block; max-width: 75%; margin: 0; font-size: 13px; font-weight: 600; line-height: 1.35; vertical-align: baseline; }
 .result-percent { float: right; padding-top: 1px; color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; }
-.result-details { clear: both; margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.result-details { clear: both; margin: 8px 0 0; color: var(--muted); font-size: 10px; line-height: 1.4; }
+.result-vote-list { display: grid; gap: 5px; }
+.result-vote-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.result-vote-row span { min-width: 0; }
+.result-vote-row strong { flex: 0 0 auto; color: var(--ink); font-size: 10px; font-variant-numeric: tabular-nums; text-align: right; }
+.result-counts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px 12px; margin: 9px 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
+.result-counts div { display: flex; justify-content: space-between; gap: 6px; }
+.result-counts dt { color: var(--muted); }
+.result-counts dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; text-align: right; }
 .ibge-code { margin-top: 2px; border-bottom: 0; }
+
+.analytics-section, .results-section {
+  margin-top: 28px;
+  padding-top: 21px;
+  border-top: 1px solid var(--line);
+}
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+.section-heading .eyebrow { margin-bottom: 5px; }
+.section-heading h2 { margin: 0; font-family: "Newsreader", Georgia, serif; font-size: 24px; font-weight: 500; line-height: 1.1; }
+.section-meta { color: var(--muted); font-size: 11px; }
+.chart-container { position: relative; width: 100%; height: 360px; margin-top: 15px; }
+.chart-status, .table-empty { margin: 24px 0; color: var(--muted); font-size: 12px; }
+.results-heading { align-items: center; margin-bottom: 14px; }
+.results-subtitle { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+.results-actions { display: flex; align-items: center; gap: 16px; }
+.download-button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid #cbd6d0;
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.download-button:hover { border-color: var(--green); color: var(--green); }
+.download-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.table-scroll { max-height: 680px; overflow: auto; border-top: 1px solid var(--line); }
+.results-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.results-table th, .results-table td { padding: 9px 12px; border-bottom: 1px solid #e4e8e5; text-align: right; white-space: nowrap; }
+.results-table thead { position: sticky; z-index: 1; top: 0; background: var(--paper); }
+.results-table thead th { height: 42px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.results-table th:first-child, .results-table tbody th { text-align: left; }
+.table-sort { display: inline-flex; align-items: center; gap: 5px; padding: 3px 0; border: 0; background: none; color: var(--ink); font: inherit; cursor: pointer; }
+.table-sort:hover { text-decoration: underline; text-underline-offset: 3px; }
+.table-sort span { color: #929d97; font-size: 12px; }
+.table-sort.candidate-lula, .table-sort.candidate-jeronimo { color: #ce1833; }
+.table-sort.candidate-bolsonaro, .table-sort.candidate-acm { color: #145bb8; }
+.results-table tbody th { font-weight: 500; }
+.municipality-link { padding: 0; border: 0; border-bottom: 1px solid transparent; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.municipality-link:hover { border-bottom-color: currentColor; }
+.results-table tbody tr:hover { background: #f0f4f1; }
+.results-table td.candidate-lula, .results-table td.candidate-jeronimo { color: #ce1833; }
+.results-table td.candidate-bolsonaro, .results-table td.candidate-acm { color: #145bb8; }
 
 @keyframes settle-in {
   from { opacity: 0; transform: translateY(9px); }
@@ -346,6 +417,7 @@ h1 span { color: var(--green); }
   .search-control { order: 3; width: 100%; margin-left: 0; }
   .map-layout { grid-template-columns: minmax(0, 1fr) 235px; gap: 16px; }
   .metric { padding-right: 10px; padding-left: 10px; }
+  .territory-filter { flex: 1 1 190px; }
 }
 
 @media (max-width: 620px) {
@@ -355,6 +427,9 @@ h1 span { color: var(--green); }
   .source-note { font-size: 10px; }
   .controls { gap: 8px; padding: 11px 0; }
   .control-label { display: none; }
+  .territory-filter { order: 3; flex: 1 1 100%; }
+  .territory-filter .control-label { display: block; }
+  .territory-filter select { height: 38px; }
   .election-button { padding: 0 10px; }
   .reset-button { margin-left: auto; }
   .dashboard { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 12px 0; }
@@ -386,8 +461,16 @@ h1 span { color: var(--green); }
   .municipality-panel.is-open { display: block; animation: panel-rise 240ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   .panel-close { display: grid; }
   .panel-hint { margin-top: 12px; }
-  .elector-count, .ibge-code { padding: 9px 0; }
+  .territory-name, .elector-count, .ibge-code { padding: 9px 0; }
   .election-result { padding: 10px 0 8px; }
+  .analytics-section, .results-section { margin-top: 22px; padding-top: 17px; }
+  .section-heading h2 { font-size: 21px; }
+  .chart-container { height: 330px; margin-top: 10px; }
+  .results-heading { align-items: start; }
+  .results-actions { align-items: end; flex-direction: column-reverse; gap: 7px; }
+  .download-button { min-height: 34px; }
+  .results-table { min-width: 610px; }
+  .results-table th, .results-table td { padding: 9px 10px; }
 }
 
 @media (max-width: 370px) {
