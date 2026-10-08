@@ -69,11 +69,18 @@ async function fetchJson(url, friendlyError) {
 }
 
 async function loadData() {
-  const records = await fetchJson(DATA_URL, "Não foi possível carregar os dados eleitorais.");
+  const records = await fetchJson(
+    DATA_URL,
+    "Não foi possível carregar os dados eleitorais.",
+  );
   if (!Array.isArray(records)) {
-    throw new TypeError("O arquivo de dados eleitorais está em formato inválido.");
+    throw new TypeError(
+      "O arquivo de dados eleitorais está em formato inválido.",
+    );
   }
-  state.recordsByCode = new Map(records.map((record) => [Number(record.ibge), record]));
+  state.recordsByCode = new Map(
+    records.map((record) => [Number(record.ibge), record]),
+  );
   if (state.recordsByCode.size !== records.length) {
     throw new Error("Existem códigos IBGE duplicados nos dados eleitorais.");
   }
@@ -98,14 +105,21 @@ function initializeMap() {
     maxBoundsViscosity: 1,
   });
   elements.map.addEventListener("mouseleave", clearHoveredFeature);
-  L.control.attribution({ prefix: false }).addAttribution('Malha municipal <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais.html" target="_blank" rel="noreferrer">IBGE</a>').addTo(state.map);
+  L.control
+    .attribution({ prefix: false })
+    .addAttribution(
+      'Malha municipal <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais.html" target="_blank" rel="noreferrer">IBGE</a>',
+    )
+    .addTo(state.map);
 }
 
 function getRecordForFeature(feature) {
   const code = Number(feature.properties?.code);
   const record = state.recordsByCode.get(code);
   if (!record) {
-    console.warn(`Município sem correspondência: ${feature.properties?.municipio ?? code}`);
+    console.warn(
+      `Município sem correspondência: ${feature.properties?.municipio ?? code}`,
+    );
   }
   return record;
 }
@@ -135,7 +149,9 @@ function getColor(percentual, candidate, election = state.election) {
   const value = Math.max(0, Math.min(100, percentual));
   const range = COLOR_RANGES[group];
   const amount = value / 100;
-  const color = range.low.map((channel, index) => Math.round(channel + (range.high[index] - channel) * amount));
+  const color = range.low.map((channel, index) =>
+    Math.round(channel + (range.high[index] - channel) * amount),
+  );
   return colorString(color);
 }
 
@@ -154,13 +170,21 @@ function formatElectors(value) {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return "Dados não disponíveis";
   }
-  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(
+    value,
+  );
 }
 
 function styleFeature(feature) {
   const record = getRecordForFeature(feature);
   if (!isInSelectedTerritory(record)) {
-    return { color: "#f8faf7", weight: 0.5, opacity: 0.2, fillColor: "#cbd3ce", fillOpacity: 0.22 };
+    return {
+      color: "#f8faf7",
+      weight: 0.5,
+      opacity: 0.2,
+      fillColor: "#cbd3ce",
+      fillOpacity: 0.22,
+    };
   }
   const electionData = getElectionData(record);
   return {
@@ -173,14 +197,21 @@ function styleFeature(feature) {
 }
 
 function renderMunicipalities(geojson) {
-  if (geojson?.type !== "FeatureCollection" || !Array.isArray(geojson.features)) {
+  if (
+    geojson?.type !== "FeatureCollection" ||
+    !Array.isArray(geojson.features)
+  ) {
     throw new Error("A malha municipal está em formato inválido.");
   }
   if (geojson.features.length !== EXPECTED_MUNICIPALITIES) {
-    throw new Error(`A malha municipal deveria conter ${EXPECTED_MUNICIPALITIES} municípios.`);
+    throw new Error(
+      `A malha municipal deveria conter ${EXPECTED_MUNICIPALITIES} municípios.`,
+    );
   }
 
-  const matchedCount = geojson.features.filter((feature) => getRecordForFeature(feature)).length;
+  const matchedCount = geojson.features.filter((feature) =>
+    getRecordForFeature(feature),
+  ).length;
   if (matchedCount !== EXPECTED_MUNICIPALITIES) {
     elements.mapStatus.textContent = `${matchedCount} de ${EXPECTED_MUNICIPALITIES} municípios associados`;
   }
@@ -204,7 +235,12 @@ function configureFeature(feature, layer) {
     return;
   }
   const municipality = record.municipio;
-  layer.bindTooltip(() => createTooltip(record), { sticky: true, direction: "top", offset: [0, -8], opacity: 1 });
+  layer.bindTooltip(() => createTooltip(record), {
+    sticky: true,
+    direction: "top",
+    offset: [0, -8],
+    opacity: 1,
+  });
   layer.on({
     click: () => showMunicipality(record, layer),
     mouseover: () => {
@@ -227,7 +263,10 @@ function configureFeature(feature, layer) {
 }
 
 function isInSelectedTerritory(record) {
-  return state.territory === "todos" || record?.territorio_identidade === state.territory;
+  return (
+    state.territory === "todos" ||
+    record?.territorio_identidade === state.territory
+  );
 }
 
 function getFilteredRecords() {
@@ -252,7 +291,9 @@ function updateTerritoryMap() {
 }
 
 function populateTerritoryOptions(records) {
-  const territories = [...new Set(records.map((record) => record.territorio_identidade))]
+  const territories = [
+    ...new Set(records.map((record) => record.territorio_identidade)),
+  ]
     .filter(Boolean)
     .sort((left, right) => left.localeCompare(right, "pt-BR"));
   const options = territories.map((territory) => {
@@ -266,7 +307,10 @@ function populateTerritoryOptions(records) {
 
 function changeTerritory(territory) {
   state.territory = territory;
-  if (state.selectedLayer && !isInSelectedTerritory(getRecordForFeature(state.selectedLayer.feature))) {
+  if (
+    state.selectedLayer &&
+    !isInSelectedTerritory(getRecordForFeature(state.selectedLayer.feature))
+  ) {
     state.municipalityLayer.resetStyle(state.selectedLayer);
     state.selectedLayer.getElement()?.classList.remove("is-selected");
     state.selectedLayer = null;
@@ -293,9 +337,15 @@ function createTooltip(record) {
   const value = Number(electionData?.percentual);
   tooltip.className = "tooltip-card";
   if (group) {
-    tooltip.style.setProperty("--tip-color", colorString(COLOR_RANGES[group].high));
+    tooltip.style.setProperty(
+      "--tip-color",
+      colorString(COLOR_RANGES[group].high),
+    );
   }
-  tooltip.style.setProperty("--tip-width", `${Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0}%`);
+  tooltip.style.setProperty(
+    "--tip-width",
+    `${Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0}%`,
+  );
   const header = document.createElement("div");
   const avatar = document.createElement("span");
   const titles = document.createElement("div");
@@ -303,7 +353,9 @@ function createTooltip(record) {
   const action = document.createElement("div");
   header.className = "tooltip-header";
   avatar.className = "tooltip-avatar";
-  avatar.textContent = (electionData?.candidato || record.municipio).charAt(0).toUpperCase();
+  avatar.textContent = (electionData?.candidato || record.municipio)
+    .charAt(0)
+    .toUpperCase();
   name.className = "tooltip-name";
   name.textContent = record.municipio;
   electors.className = "tooltip-meta";
@@ -328,14 +380,20 @@ function makeFeatureKeyboardAccessible(layer, record) {
   const path = layer.getElement();
   if (!path || path.dataset.keyboardReady) {
     if (path) {
-      path.setAttribute("aria-label", `${record.municipio}, ${formatPercent(getElectionData(record)?.percentual)}`);
+      path.setAttribute(
+        "aria-label",
+        `${record.municipio}, ${formatPercent(getElectionData(record)?.percentual)}`,
+      );
     }
     return;
   }
   path.dataset.keyboardReady = "true";
   path.setAttribute("tabindex", "0");
   path.setAttribute("role", "button");
-  path.setAttribute("aria-label", `${record.municipio}, ${formatPercent(getElectionData(record)?.percentual)}`);
+  path.setAttribute(
+    "aria-label",
+    `${record.municipio}, ${formatPercent(getElectionData(record)?.percentual)}`,
+  );
   path.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -389,14 +447,18 @@ function showMunicipality(record, layer) {
   elements.panel.classList.add("is-open");
   renderMunicipalityPanel(record);
   animatePanelContent();
-  document.querySelector("#panel-ibge").textContent = Number.isInteger(Number(record.ibge))
+  document.querySelector("#panel-ibge").textContent = Number.isInteger(
+    Number(record.ibge),
+  )
     ? String(record.ibge).padStart(7, "0")
     : "Dados não disponíveis";
   elements.mapStatus.textContent = `${record.municipio} selecionado`;
 }
 
 function animatePanelContent() {
-  elements.panelContent.getAnimations().forEach((animation) => animation.cancel());
+  elements.panelContent
+    .getAnimations()
+    .forEach((animation) => animation.cancel());
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
   }
@@ -415,9 +477,12 @@ function renderElectionResult(prefix, electionData) {
   const percentElement = document.querySelector(`#panel-${prefix}-percent`);
   const detailsElement = document.querySelector(`#panel-${prefix}-details`);
   const group = getCandidateColorGroup(electionData?.candidato, election);
-  candidateElement.textContent = electionData?.candidato || "Dados não disponíveis";
+  candidateElement.textContent =
+    electionData?.candidato || "Dados não disponíveis";
   percentElement.textContent = formatPercent(electionData?.percentual);
-  percentElement.style.color = group ? colorString(COLOR_RANGES[group].high) : "";
+  percentElement.style.color = group
+    ? colorString(COLOR_RANGES[group].high)
+    : "";
   const candidates = [];
   if (electionData?.votos !== undefined) {
     candidates.push({ name: "Votos do vencedor", votes: electionData.votos });
@@ -430,7 +495,11 @@ function renderElectionResult(prefix, electionData) {
     });
   }
   if (electionData?.votos_outros !== undefined) {
-    candidates.push({ name: "Outros candidatos", votes: electionData.votos_outros, percent: electionData.percentual_outros });
+    candidates.push({
+      name: "Outros candidatos",
+      votes: electionData.votos_outros,
+      percent: electionData.percentual_outros,
+    });
   }
   const counts = [
     ["Votos válidos", electionData?.votos_validos],
@@ -472,8 +541,10 @@ function renderElectionResult(prefix, electionData) {
 
 function renderMunicipalityPanel(record) {
   const presidentData = getElectionData(record, "presidente");
-  document.querySelector("#panel-territory").textContent = record.territorio_identidade || "Dados não disponíveis";
-  document.querySelector("#panel-turnout-label").textContent = state.year === "2022" ? "Votos apurados" : "Eleitores";
+  document.querySelector("#panel-territory").textContent =
+    record.territorio_identidade || "Dados não disponíveis";
+  document.querySelector("#panel-turnout-label").textContent =
+    state.year === "2022" ? "Votos apurados" : "Eleitores";
   document.querySelector("#panel-electors").textContent = formatElectors(
     presidentData?.eleitores ?? presidentData?.total_votos,
   );
@@ -483,20 +554,39 @@ function renderMunicipalityPanel(record) {
 
 function updateDashboard(records = getFilteredRecords()) {
   const valid = records
-    .map((record) => ({ record, percentage: getElectionData(record)?.percentual }))
-    .filter(({ percentage }) => typeof percentage === "number" && Number.isFinite(percentage));
-  const sorted = [...valid].sort((left, right) => left.percentage - right.percentage);
-  const total = records.length;
-  document.querySelector("#metric-count").textContent = new Intl.NumberFormat("pt-BR").format(total);
-  document.querySelector("#metric-max").textContent = sorted.length ? formatPercent(sorted.at(-1).percentage) : "Dados não disponíveis";
-  document.querySelector("#metric-min").textContent = sorted.length ? formatPercent(sorted[0].percentage) : "Dados não disponíveis";
-  document.querySelector("#metric-max-city").textContent = sorted.at(-1)?.record.municipio ?? "";
-  document.querySelector("#metric-min-city").textContent = sorted[0]?.record.municipio ?? "";
-  const average = valid.length ? valid.reduce((sum, item) => sum + item.percentage, 0) / valid.length : null;
-  document.querySelector("#metric-average").textContent = average === null ? "Dados não disponíveis" : formatPercent(average);
-  document.querySelector("#metric-above").textContent = new Intl.NumberFormat("pt-BR").format(
-    valid.filter((item) => item.percentage > 75).length,
+    .map((record) => ({
+      record,
+      percentage: getElectionData(record)?.percentual,
+    }))
+    .filter(
+      ({ percentage }) =>
+        typeof percentage === "number" && Number.isFinite(percentage),
+    );
+  const sorted = [...valid].sort(
+    (left, right) => left.percentage - right.percentage,
   );
+  const total = records.length;
+  document.querySelector("#metric-count").textContent = new Intl.NumberFormat(
+    "pt-BR",
+  ).format(total);
+  document.querySelector("#metric-max").textContent = sorted.length
+    ? formatPercent(sorted.at(-1).percentage)
+    : "Dados não disponíveis";
+  document.querySelector("#metric-min").textContent = sorted.length
+    ? formatPercent(sorted[0].percentage)
+    : "Dados não disponíveis";
+  document.querySelector("#metric-max-city").textContent =
+    sorted.at(-1)?.record.municipio ?? "";
+  document.querySelector("#metric-min-city").textContent =
+    sorted[0]?.record.municipio ?? "";
+  const average = valid.length
+    ? valid.reduce((sum, item) => sum + item.percentage, 0) / valid.length
+    : null;
+  document.querySelector("#metric-average").textContent =
+    average === null ? "Dados não disponíveis" : formatPercent(average);
+  document.querySelector("#metric-above").textContent = new Intl.NumberFormat(
+    "pt-BR",
+  ).format(valid.filter((item) => item.percentage > 75).length);
 }
 
 function getElectorate(record, year = state.year) {
@@ -529,13 +619,15 @@ function renderElectorateChart() {
     type: "bar",
     data: {
       labels: topRecords.map(({ record }) => record.municipio),
-      datasets: [{
-        data: topRecords.map(({ electorate }) => electorate),
-        backgroundColor: "#25675f",
-        hoverBackgroundColor: "#174b45",
-        borderRadius: 2,
-        barPercentage: 0.72,
-      }],
+      datasets: [
+        {
+          data: topRecords.map(({ electorate }) => electorate),
+          backgroundColor: "#25675f",
+          hoverBackgroundColor: "#174b45",
+          borderRadius: 2,
+          barPercentage: 0.72,
+        },
+      ],
     },
     options: {
       indexAxis: "y",
@@ -544,13 +636,22 @@ function renderElectorateChart() {
       animation: { duration: 350 },
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: (context) => ` ${formatElectors(context.raw)} eleitores` } },
+        tooltip: {
+          callbacks: {
+            label: (context) => ` ${formatElectors(context.raw)} eleitores`,
+          },
+        },
       },
       scales: {
         x: {
           beginAtZero: true,
           grid: { color: "#e3e9e5" },
-          ticks: { callback: (value) => new Intl.NumberFormat("pt-BR", { notation: "compact" }).format(value) },
+          ticks: {
+            callback: (value) =>
+              new Intl.NumberFormat("pt-BR", { notation: "compact" }).format(
+                value,
+              ),
+          },
         },
         y: { grid: { display: false }, ticks: { color: "#202c29" } },
       },
@@ -569,22 +670,29 @@ function get2022CandidateVotes(record) {
     const winnerKey = normalizeName(result.candidato);
     const secondKey = normalizeName(result.segundo_candidato);
     for (const [candidate, key] of Object.entries(candidates)) {
-      if (normalizeName(candidate) === winnerKey) votes[key] = result.votos ?? 0;
-      if (normalizeName(candidate) === secondKey) votes[key] = result.votos_segundo ?? 0;
+      if (normalizeName(candidate) === winnerKey)
+        votes[key] = result.votos ?? 0;
+      if (normalizeName(candidate) === secondKey)
+        votes[key] = result.votos_segundo ?? 0;
     }
   }
   return votes;
 }
 
 function getSortedTableRecords() {
-  const records = getFilteredRecords().map((record) => ({ record, ...get2022CandidateVotes(record) }));
+  const records = getFilteredRecords().map((record) => ({
+    record,
+    ...get2022CandidateVotes(record),
+  }));
   const { key, direction } = state.tableSort;
   return records.sort((left, right) => {
     const leftValue = key === "municipio" ? left.record.municipio : left[key];
-    const rightValue = key === "municipio" ? right.record.municipio : right[key];
-    const comparison = typeof leftValue === "number"
-      ? leftValue - rightValue
-      : leftValue.localeCompare(rightValue, "pt-BR");
+    const rightValue =
+      key === "municipio" ? right.record.municipio : right[key];
+    const comparison =
+      typeof leftValue === "number"
+        ? leftValue - rightValue
+        : leftValue.localeCompare(rightValue, "pt-BR");
     return comparison * (direction === "asc" ? 1 : -1);
   });
 }
@@ -616,33 +724,68 @@ function renderResultsTable() {
   elements.tableEmpty.hidden = records.length > 0;
   document.querySelectorAll(".table-sort").forEach((button) => {
     const active = button.dataset.sortKey === state.tableSort.key;
-    button.closest("th").setAttribute("aria-sort", active ? `${state.tableSort.direction === "asc" ? "ascending" : "descending"}` : "none");
-    button.querySelector("span").textContent = active ? (state.tableSort.direction === "asc" ? "↑" : "↓") : "↕";
+    button
+      .closest("th")
+      .setAttribute(
+        "aria-sort",
+        active
+          ? `${state.tableSort.direction === "asc" ? "ascending" : "descending"}`
+          : "none",
+      );
+    button.querySelector("span").textContent = active
+      ? state.tableSort.direction === "asc"
+        ? "↑"
+        : "↓"
+      : "↕";
   });
 }
 
 function downloadResultsExcel() {
   if (!window.XLSX) {
-    elements.mapStatus.textContent = "Não foi possível carregar a exportação para Excel.";
+    elements.mapStatus.textContent =
+      "Não foi possível carregar a exportação para Excel.";
     return;
   }
-  const territory = state.territory === "todos" ? "Todos os territórios" : state.territory;
+  const territory =
+    state.territory === "todos" ? "Todos os territórios" : state.territory;
   const rows = [
-    ["Município", "Território de identidade", "Lula", "Bolsonaro", "Jerônimo Rodrigues", "ACM Neto", "Eleitorado"],
-    ...getSortedTableRecords().map(({ record, lula, bolsonaro, jeronimo, acm }) => [
-      record.municipio,
-      record.territorio_identidade,
-      lula,
-      bolsonaro,
-      jeronimo,
-      acm,
-      getElectorate(record, "2022"),
-    ]),
+    [
+      "Município",
+      "Território de identidade",
+      "Lula",
+      "Bolsonaro",
+      "Jerônimo Rodrigues",
+      "ACM Neto",
+      "Eleitorado",
+    ],
+    ...getSortedTableRecords().map(
+      ({ record, lula, bolsonaro, jeronimo, acm }) => [
+        record.municipio,
+        record.territorio_identidade,
+        lula,
+        bolsonaro,
+        jeronimo,
+        acm,
+        getElectorate(record, "2022"),
+      ],
+    ),
   ];
   const workbook = window.XLSX.utils.book_new();
   const worksheet = window.XLSX.utils.aoa_to_sheet(rows);
-  worksheet["!cols"] = [{ wch: 24 }, { wch: 34 }, { wch: 14 }, { wch: 14 }, { wch: 20 }, { wch: 14 }, { wch: 14 }];
-  window.XLSX.utils.book_append_sheet(workbook, worksheet, "Votos 2022 - 2 turno");
+  worksheet["!cols"] = [
+    { wch: 24 },
+    { wch: 34 },
+    { wch: 14 },
+    { wch: 14 },
+    { wch: 20 },
+    { wch: 14 },
+    { wch: 14 },
+  ];
+  window.XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Votos 2022 - 2 turno",
+  );
   const slug = normalizeName(territory).replace(/\s+/g, "-");
   window.XLSX.writeFile(workbook, `votacao-2022-2-turno-${slug}.xlsx`);
 }
@@ -650,7 +793,9 @@ function downloadResultsExcel() {
 function populateSearchOptions(records) {
   const options = document.createDocumentFragment();
   [...records]
-    .sort((left, right) => left.municipio.localeCompare(right.municipio, "pt-BR"))
+    .sort((left, right) =>
+      left.municipio.localeCompare(right.municipio, "pt-BR"),
+    )
     .forEach((record) => {
       const option = document.createElement("option");
       option.value = record.municipio;
@@ -664,8 +809,13 @@ function searchMunicipality(query) {
   if (!normalized) {
     return;
   }
-  const match = [...state.recordsByCode.values()].find((record) => normalizeName(record.municipio) === normalized)
-    ?? [...state.recordsByCode.values()].find((record) => normalizeName(record.municipio).startsWith(normalized));
+  const match =
+    [...state.recordsByCode.values()].find(
+      (record) => normalizeName(record.municipio) === normalized,
+    ) ??
+    [...state.recordsByCode.values()].find((record) =>
+      normalizeName(record.municipio).startsWith(normalized),
+    );
   if (!match) {
     elements.mapStatus.textContent = "Município não encontrado";
     return;
@@ -676,7 +826,8 @@ function searchMunicipality(query) {
   }
   const layer = findLayerByCode(match.ibge);
   if (!layer) {
-    elements.mapStatus.textContent = "Não foi possível localizar esse município na malha.";
+    elements.mapStatus.textContent =
+      "Não foi possível localizar esse município na malha.";
     return;
   }
   state.map.fitBounds(layer.getBounds(), { maxZoom: 9, padding: [42, 42] });
@@ -756,7 +907,10 @@ function refreshSelectedTooltip() {
     if (record) {
       state.selectedLayer.setStyle({ weight: 2, color: "#202c29" });
       state.selectedLayer.unbindTooltip();
-      state.selectedLayer.bindTooltip(() => createTooltip(record), { sticky: true, direction: "top" });
+      state.selectedLayer.bindTooltip(() => createTooltip(record), {
+        sticky: true,
+        direction: "top",
+      });
     }
   }
 }
@@ -798,20 +952,27 @@ function attachControls() {
     button.addEventListener("click", () => changeYear(button.dataset.year));
   });
   document.querySelectorAll(".election-button").forEach((button) => {
-    button.addEventListener("click", () => changeElection(button.dataset.election));
+    button.addEventListener("click", () =>
+      changeElection(button.dataset.election),
+    );
   });
   elements.searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     searchMunicipality(elements.searchInput.value);
   });
   elements.resetMap.addEventListener("click", returnToBahia);
-  elements.territoryFilter.addEventListener("change", () => changeTerritory(elements.territoryFilter.value));
+  elements.territoryFilter.addEventListener("change", () =>
+    changeTerritory(elements.territoryFilter.value),
+  );
   document.querySelectorAll(".table-sort").forEach((button) => {
     button.addEventListener("click", () => {
       const key = button.dataset.sortKey;
       state.tableSort = {
         key,
-        direction: state.tableSort.key === key && state.tableSort.direction === "asc" ? "desc" : "asc",
+        direction:
+          state.tableSort.key === key && state.tableSort.direction === "asc"
+            ? "desc"
+            : "asc",
       };
       renderResultsTable();
     });
