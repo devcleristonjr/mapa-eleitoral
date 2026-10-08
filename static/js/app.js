@@ -1,5 +1,5 @@
-const DATA_URL = "../data/processed/dados.json";
-const GEOJSON_URL = "../data/geo/bahia-municipios.geojson";
+const DATA_URL = "/api/dados";
+const GEOJSON_URL = "/api/geojson";
 const EXPECTED_MUNICIPALITIES = 417;
 const CANDIDATE_COLOR_GROUPS = {
   presidente: { lula: "red", bolsonaro: "blue", "flavio bolsonaro": "blue" },
@@ -63,7 +63,16 @@ function normalizeName(value) {
 async function fetchJson(url, friendlyError) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(friendlyError);
+    let message = friendlyError;
+    try {
+      const payload = await response.json();
+      if (typeof payload.error === "string") {
+        message = payload.error;
+      }
+    } catch {
+      // Keep the existing friendly message when an error response is not JSON.
+    }
+    throw new Error(message);
   }
   return response.json();
 }

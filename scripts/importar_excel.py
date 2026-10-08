@@ -284,28 +284,35 @@ def validate_and_build(workbook, municipalities):
     return records, errors, len(municipality_index)
 
 
+def generate_processed_data(excel_path=WORKBOOK_PATH, refresh_ibge=False):
+    if not excel_path.is_file():
+        raise FileNotFoundError(f"Planilha nao encontrada: {excel_path}")
+
+    municipalities = load_ibge_table(refresh_ibge)
+    workbook = openpyxl.load_workbook(excel_path, read_only=True, data_only=True)
+    try:
+        records, errors, found = validate_and_build(workbook, municipalities)
+    finally:
+        workbook.close()
+    if errors:
+        raise ValueError("BASE NAO VALIDADA\n- " + "\n- ".join(errors))
+
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_PATH.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return found
+
+
 def main():
     parser = argparse.ArgumentParser(description="Importa a base eleitoral da Bahia a partir de uma planilha.")
     parser.add_argument("--excel", type=Path, default=WORKBOOK_PATH, help="Caminho da planilha central.")
     parser.add_argument("--atualizar-ibge", action="store_true", help="Atualiza a tabela municipal oficial do IBGE.")
     args = parser.parse_args()
-    if not args.excel.is_file():
-        print(f"Planilha nao encontrada: {args.excel}", file=sys.stderr)
-        return 1
     try:
-        municipalities = load_ibge_table(args.atualizar_ibge)
-        workbook = openpyxl.load_workbook(args.excel, read_only=True, data_only=True)
-        records, errors, found = validate_and_build(workbook, municipalities)
+        found = generate_processed_data(args.excel, args.atualizar_ibge)
     except (OSError, ValueError, KeyError, openpyxl.utils.exceptions.InvalidFileException) as error:
         print(f"Falha ao processar a base: {error}", file=sys.stderr)
         return 1
-    if errors:
-        print("BASE NAO VALIDADA")
-        for error in errors:
-            print(f"- {error}")
-        return 1
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_PATH.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     print(f"Base validada: {found} municipios, {EXPECTED_TERRITORIES} territorios, 4 abas eleitorais.")
     print(f"Arquivo gerado: {OUTPUT_PATH.relative_to(ROOT)}")
     return 0
