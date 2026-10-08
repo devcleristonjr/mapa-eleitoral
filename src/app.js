@@ -22,6 +22,7 @@ const state = {
   recordsByCode: new Map(),
   map: null,
   municipalityLayer: null,
+  hoveredLayer: null,
   activeTooltipLayer: null,
   fullBounds: null,
   selectedLayer: null,
@@ -96,7 +97,7 @@ function initializeMap() {
     maxZoom: 11,
     maxBoundsViscosity: 1,
   });
-  elements.map.addEventListener("mouseleave", closeActiveTooltip);
+  elements.map.addEventListener("mouseleave", clearHoveredFeature);
   L.control.attribution({ prefix: false }).addAttribution('Malha municipal <a href="https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais.html" target="_blank" rel="noreferrer">IBGE</a>').addTo(state.map);
 }
 
@@ -207,16 +208,18 @@ function configureFeature(feature, layer) {
   layer.on({
     click: () => showMunicipality(record, layer),
     mouseover: () => {
-      closeActiveTooltip();
+      if (state.hoveredLayer !== layer) {
+        clearHoveredFeature();
+        state.hoveredLayer = layer;
+      }
       state.activeTooltipLayer = layer;
       layer.openTooltip();
       highlightFeature(layer);
     },
     mouseout: () => {
-      if (state.activeTooltipLayer === layer) {
-        closeActiveTooltip();
+      if (state.hoveredLayer === layer) {
+        clearHoveredFeature();
       }
-      resetFeatureStyle(layer);
     },
   });
   layer.on("add", () => makeFeatureKeyboardAccessible(layer, record));
@@ -351,6 +354,15 @@ function closeActiveTooltip() {
   const activeLayer = state.activeTooltipLayer;
   state.activeTooltipLayer = null;
   activeLayer?.closeTooltip();
+}
+
+function clearHoveredFeature() {
+  const hoveredLayer = state.hoveredLayer;
+  state.hoveredLayer = null;
+  closeActiveTooltip();
+  if (hoveredLayer) {
+    resetFeatureStyle(hoveredLayer);
+  }
 }
 
 function resetFeatureStyle(layer) {
