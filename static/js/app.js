@@ -359,7 +359,6 @@ function createTooltip(record) {
   const avatar = document.createElement("span");
   const titles = document.createElement("div");
   const electors = document.createElement("div");
-  const action = document.createElement("div");
   header.className = "tooltip-header";
   avatar.className = "tooltip-avatar";
   avatar.textContent = (electionData?.candidato || record.municipio)
@@ -377,11 +376,46 @@ function createTooltip(record) {
   percent.textContent = formatPercent(electionData?.percentual);
   candidate.textContent = electionData?.candidato || "";
   details.append(percent, candidate);
+  tooltip.append(header, details);
   bar.className = "tooltip-bar";
+  bar.style.setProperty(
+    "--tip-width",
+    `${Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0}%`,
+  );
   bar.append(document.createElement("span"));
-  action.className = "tooltip-action";
-  action.textContent = "Ver detalhes →";
-  tooltip.append(header, details, bar, action);
+  tooltip.append(bar);
+  if (
+    electionData?.segundo_candidato &&
+    Number.isFinite(electionData.percentual_segundo)
+  ) {
+    const rival = document.createElement("div");
+    const rivalDetails = document.createElement("div");
+    const rivalName = document.createElement("span");
+    const rivalPercent = document.createElement("strong");
+    const rivalBar = document.createElement("div");
+    const rivalGroup = getCandidateColorGroup(electionData.segundo_candidato);
+    rival.className = "tooltip-rival";
+    rivalDetails.className = "tooltip-rival-details";
+    rivalName.textContent = electionData.segundo_candidato;
+    rivalPercent.className = "tooltip-rival-percent";
+    rivalPercent.textContent = formatPercent(electionData.percentual_segundo);
+    rivalDetails.append(rivalName, rivalPercent);
+    rivalBar.className = "tooltip-bar tooltip-rival-bar";
+    rivalBar.style.setProperty(
+      "--tip-width",
+      `${Math.max(0, Math.min(100, electionData.percentual_segundo))}%`,
+    );
+    if (rivalGroup) {
+      rivalBar.style.setProperty(
+        "--tip-color",
+        colorString(COLOR_RANGES[rivalGroup].high),
+      );
+      rivalPercent.style.color = colorString(COLOR_RANGES[rivalGroup].high);
+    }
+    rivalBar.append(document.createElement("span"));
+    rival.append(rivalDetails, rivalBar);
+    tooltip.append(rival);
+  }
   return tooltip;
 }
 
