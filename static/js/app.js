@@ -1,6 +1,20 @@
 const DATA_URL = "/api/dados";
 const GEOJSON_URL = "/api/geojson";
 const EXPECTED_MUNICIPALITIES = 417;
+const MUNICIPALITY_LABEL_CONFIG = {
+  minZoom: 7,
+  mediumZoom: 8,
+  denseZoom: 9,
+  fullZoom: 10,
+  mediumLimit: 45,
+  denseLimit: 110,
+  closeLimit: 230,
+  collisionPadding: 3,
+  minimumFontSize: 9,
+  maximumFontSize: 12,
+  fontSizePerZoom: 0.75,
+  maximumBoundsWidthRatio: 1.5,
+};
 const CANDIDATE_COLOR_GROUPS = {
   presidente: { lula: "red", bolsonaro: "blue", "flavio bolsonaro": "blue" },
   governador: {
@@ -26,6 +40,9 @@ const state = {
   activeTooltipLayer: null,
   fullBounds: null,
   selectedLayer: null,
+  municipalityLabelLayer: null,
+  municipalityLabels: [],
+  labelUpdateFrame: null,
   electorateChart: null,
   tableSort: { key: "municipio", direction: "asc" },
 };
@@ -50,6 +67,8 @@ const elements = {
   tableEmpty: document.querySelector("#table-empty"),
   downloadExcel: document.querySelector("#download-excel"),
 };
+const municipalityLabelMeasureContext =
+  document.createElement("canvas").getContext("2d");
 
 function normalizeName(value) {
   return String(value ?? "")
@@ -113,6 +132,11 @@ function initializeMap() {
     maxZoom: 11,
     maxBoundsViscosity: 1,
   });
+  const labelPane = state.map.createPane("municipality-labels");
+  labelPane.style.zIndex = "625";
+  labelPane.style.pointerEvents = "none";
+  state.municipalityLabelLayer = L.layerGroup().addTo(state.map);
+  state.map.on("zoomend moveend", scheduleMunicipalityLabels);
   elements.map.addEventListener("mouseleave", clearHoveredFeature);
   L.control
     .attribution({ prefix: false })
@@ -166,6 +190,283 @@ function getColor(percentual, candidate, election = state.election) {
 
 function colorString(channels) {
   return `rgb(${channels.join(", ")})`;
+}
+
+function getPolygonParts(geometry) {
+  if (geometry?.type === "Polygon") {
+    return [geometry.coordinates];
+  }
+  if (geometry?.type === "MultiPolygon") {
+    return geometry.coordinates;
+  }
+  return [];
+}
+
+function isInsideRing(longitude, latitude, ring) {
+  let inside = false;
+  for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index++) {
+    const [longitudeA, latitudeA] = ring[index];
+    const [longitudeB, latitudeB] = ring[previous];
+    const crossesLatitude = (latitudeA > latitude) !== (latitudeB > latitude);
+    if (
+      crossesLatitude &&
+      longitude <
+        ((longitudeB - longitudeA) * (latitude - latitudeA)) /
+          (latitudeB - latitudeA) +
+          longitudeA
+    ) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+function isInsidePolygon(longitude, latitude, rings) {
+  return (
+    rings.length > 0 &&
+    isInsideRing(longitude, latitude, rings[0]) &&
+    !rings.slice(1).some((ring) => isInsideRing(longitude, latitude, ring))
+  );
+}
+
+function getInteriorLabelPosition(geometry) {
+  let bestPosition = null;
+  let bestScore = 0;
+  for (const rings of getPolygonParts(geometry)) {
+    const outerRing = rings[0];
+    if (!Array.isArray(outerRing) || outerRing.length < 4) {
+      continue;
+    }
+    const { minimumLatitude, maximumLatitude } = outerRing.reduce(
+      (bounds, coordinate) => ({
+        minimumLatitude: Math.min(bounds.minimumLatitude, coordinate[1]),
+        maximumLatitude: Math.max(bounds.maximumLatitude, coordinate[1]),
+      }),
+      { minimumLatitude: Infinity, maximumLatitude: -Infinity },
+    );
+    const latitudeRange = maximumLatitude - minimumLatitude;
+    if (!Number.isFinite(latitudeRange) || latitudeRange <= 0) {
+      continue;
+    }
+    for (let step = 0; step < 24; step += 1) {
+      const latitude =
+        minimumLatitude + (latitudeRange * (step + 0.5)) / 24;
+      const intersections = [];
+      rings.forEach((ring) => {
+        for (
+          let index = 0, previous = ring.length - 1;
+          index < ring.length;
+          previous = index++
+        ) {
+          const [longitudeA, latitudeA] = ring[index];
+          const [longitudeB, latitudeB] = ring[previous];
+          if ((latitudeA > latitude) !== (latitudeB > latitude)) {
+            intersections.push(
+              longitudeA +
+                ((longitudeB - longitudeA) * (latitude - latitudeA)) /
+                  (latitudeB - latitudeA),
+            );
+          }
+        }
+      });
+      intersections.sort((left, right) => left - right);
+      for (let index = 0; index < intersections.length - 1; index += 1) {
+        const longitude =
+          (intersections[index] + intersections[index + 1]) / 2;
+        const width = intersections[index + 1] - intersections[index];
+        const score = width * Math.cos((latitude * Math.PI) / 180);
+        if (
+          score > bestScore &&
+          isInsidePolygon(longitude, latitude, rings)
+        ) {
+          bestScore = score;
+          bestPosition = L.latLng(latitude, longitude);
+        }
+      }
+    }
+  }
+  return bestPosition;
+}
+
+function getGeometryArea(geometry) {
+  const ringArea = (ring) => {
+    let area = 0;
+    for (let index = 0; index < ring.length - 1; index += 1) {
+      area +=
+        ring[index][0] * ring[index + 1][1] -
+        ring[index + 1][0] * ring[index][1];
+    }
+    return Math.abs(area / 2);
+  };
+  return getPolygonParts(geometry).reduce((total, rings) => {
+    if (!rings.length) {
+      return total;
+    }
+    const latitude =
+      rings[0].reduce((sum, coordinate) => sum + coordinate[1], 0) /
+      rings[0].length;
+    const polygonArea = Math.max(
+      0,
+      ringArea(rings[0]) -
+        rings.slice(1).reduce((sum, ring) => sum + ringArea(ring), 0),
+    );
+    return total + polygonArea * Math.cos((latitude * Math.PI) / 180);
+  }, 0);
+}
+
+function scheduleMunicipalityLabels() {
+  if (state.labelUpdateFrame !== null) {
+    return;
+  }
+  state.labelUpdateFrame = window.requestAnimationFrame(() => {
+    state.labelUpdateFrame = null;
+    updateMunicipalityLabels();
+  });
+}
+
+function createMunicipalityLabelIcon(entry, fontSize, selected) {
+  const label = document.createElement("span");
+  label.className = `municipality-label${selected ? " is-selected" : ""}`;
+  label.textContent = entry.name;
+  label.title = entry.name;
+  label.style.fontSize = `${fontSize}px`;
+  const width = measureMunicipalityLabel(entry.name, fontSize);
+  const height = Math.ceil(fontSize + 5);
+  return L.divIcon({
+    className: "municipality-label-icon",
+    html: label,
+    iconSize: [width, height],
+    iconAnchor: [width / 2, height / 2],
+  });
+}
+
+function measureMunicipalityLabel(name, fontSize) {
+  if (municipalityLabelMeasureContext) {
+    municipalityLabelMeasureContext.font = `500 ${fontSize}px "DM Sans", sans-serif`;
+    return Math.ceil(
+      municipalityLabelMeasureContext.measureText(name).width + 6,
+    );
+  }
+  return Math.ceil(name.length * fontSize * 0.58 + 6);
+}
+
+function updateMunicipalityLabels() {
+  if (!state.map || !state.municipalityLabelLayer) {
+    return;
+  }
+  const zoom = state.map.getZoom();
+  const config = MUNICIPALITY_LABEL_CONFIG;
+  const labelLimit =
+    zoom < config.minZoom
+      ? 0
+      : zoom < config.mediumZoom
+        ? config.mediumLimit
+        : zoom < config.denseZoom
+          ? config.denseLimit
+          : zoom < config.fullZoom
+            ? config.closeLimit
+            : EXPECTED_MUNICIPALITIES;
+  const fontSize = Math.min(
+    config.maximumFontSize,
+    Math.max(
+      config.minimumFontSize,
+      config.minimumFontSize + (zoom - config.minZoom) * config.fontSizePerZoom,
+    ),
+  );
+  const selectedCode = state.selectedLayer
+    ? Number(state.selectedLayer.feature.properties.code)
+    : null;
+  const visibleBounds = state.map.getBounds();
+  const candidates = state.municipalityLabels
+    .filter(
+      (entry) =>
+        isInSelectedTerritory(state.recordsByCode.get(entry.code)) &&
+        visibleBounds.contains(entry.position) &&
+        (zoom >= config.minZoom || entry.code === selectedCode),
+    )
+    .map((entry) => {
+      const northWest = state.map.latLngToContainerPoint([
+        entry.bounds.getNorth(),
+        entry.bounds.getWest(),
+      ]);
+      const southEast = state.map.latLngToContainerPoint([
+        entry.bounds.getSouth(),
+        entry.bounds.getEast(),
+      ]);
+      const width = Math.abs(southEast.x - northWest.x);
+      const estimatedLabelWidth = measureMunicipalityLabel(
+        entry.name,
+        fontSize,
+      );
+      return {
+        source: entry,
+        ...entry,
+        selected: entry.code === selectedCode,
+        width,
+        estimatedLabelWidth,
+      };
+    })
+    .filter(
+      (entry) =>
+        entry.selected ||
+        zoom >= config.fullZoom ||
+        entry.estimatedLabelWidth <=
+          Math.max(28, entry.width * config.maximumBoundsWidthRatio),
+    )
+    .sort(
+      (left, right) =>
+        Number(right.selected) - Number(left.selected) ||
+        right.area - left.area,
+    );
+  const accepted = [];
+  const occupied = [];
+  const collisionGap = config.collisionPadding;
+  for (const entry of candidates) {
+    if (!entry.selected && accepted.length >= labelLimit) {
+      continue;
+    }
+    const point = state.map.latLngToContainerPoint(entry.position);
+    const width = entry.estimatedLabelWidth;
+    const height = fontSize + 5;
+    const box = {
+      left: point.x - width / 2 - collisionGap,
+      right: point.x + width / 2 + collisionGap,
+      top: point.y - height / 2 - collisionGap,
+      bottom: point.y + height / 2 + collisionGap,
+    };
+    if (
+      !entry.selected &&
+      occupied.some(
+        (other) =>
+          box.left < other.right &&
+          box.right > other.left &&
+          box.top < other.bottom &&
+          box.bottom > other.top,
+      )
+    ) {
+      continue;
+    }
+    accepted.push(entry);
+    occupied.push(box);
+  }
+
+  state.municipalityLabelLayer.clearLayers();
+  accepted.forEach((entry) => {
+    if (!entry.marker) {
+      entry.marker = L.marker(entry.position, {
+        interactive: false,
+        keyboard: false,
+        pane: "municipality-labels",
+        icon: createMunicipalityLabelIcon(entry, fontSize, entry.selected),
+      });
+    } else {
+      entry.marker.setIcon(
+        createMunicipalityLabelIcon(entry, fontSize, entry.selected),
+      );
+    }
+    entry.source.marker = entry.marker;
+    state.municipalityLabelLayer.addLayer(entry.marker);
+  });
 }
 
 function formatPercent(value) {
@@ -229,10 +530,30 @@ function renderMunicipalities(geojson) {
     style: styleFeature,
     onEachFeature: configureFeature,
   }).addTo(state.map);
+  state.municipalityLabels = [];
+  state.municipalityLayer.eachLayer((layer) => {
+    const record = getRecordForFeature(layer.feature);
+    const position = getInteriorLabelPosition(layer.feature.geometry);
+    if (!record || !position) {
+      console.warn(
+        `Não foi possível posicionar o rótulo do município ${layer.feature.properties?.code ?? "desconhecido"}.`,
+      );
+      return;
+    }
+    state.municipalityLabels.push({
+      code: Number(record.ibge),
+      name: record.municipio,
+      position,
+      area: getGeometryArea(layer.feature.geometry),
+      bounds: layer.getBounds(),
+      marker: null,
+    });
+  });
   state.fullBounds = state.municipalityLayer.getBounds();
   state.map.fitBounds(state.fullBounds, { padding: [18, 18], maxZoom: 10 });
   state.map.setMinZoom(Math.max(4, state.map.getZoom() - 1));
   state.map.setMaxBounds(state.fullBounds.pad(0.35));
+  updateMunicipalityLabels();
   if (matchedCount === EXPECTED_MUNICIPALITIES) {
     elements.mapStatus.textContent = `417 municípios · ${getElectionLabel()} · selecione uma área para ver os resultados`;
   }
@@ -329,6 +650,7 @@ function changeTerritory(territory) {
     elements.panelContent.hidden = true;
   }
   updateTerritoryMap();
+  updateMunicipalityLabels();
   updateDashboard();
   updateAnalytics();
   elements.mapStatus.textContent = `${formatElectors(getFilteredRecords().length)} municípios · ${territory === "todos" ? "Bahia" : territory} · ${getElectionLabel()}`;
@@ -484,6 +806,7 @@ function showMunicipality(record, layer) {
   state.selectedLayer = layer;
   layer.getElement()?.classList.add("is-selected");
   layer.setStyle({ weight: 2, color: "#202c29", fillOpacity: 1 });
+  updateMunicipalityLabels();
   elements.panelTitle.textContent = record.municipio;
   elements.panelHint.hidden = true;
   elements.panelContent.hidden = false;
@@ -982,6 +1305,7 @@ function returnToBahia() {
     state.selectedLayer.getElement()?.classList.remove("is-selected");
     state.selectedLayer = null;
   }
+  updateMunicipalityLabels();
   elements.searchInput.value = "";
   elements.panel.classList.remove("is-open");
   elements.panelTitle.textContent = "Explore o mapa";

@@ -351,6 +351,35 @@ h1 span {
   outline: none;
   filter: drop-shadow(0 0 6px #2f8f6a);
 }
+.municipality-label-icon {
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.municipality-label {
+  display: block;
+  color: #263a34;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  text-shadow:
+    -1px -1px 1px #f8faf7,
+    1px -1px 1px #f8faf7,
+    -1px 1px 1px #f8faf7,
+    1px 1px 1px #f8faf7;
+  white-space: nowrap;
+  user-select: none;
+}
+.municipality-label.is-selected {
+  color: #142d27;
+  font-weight: 700;
+  text-shadow:
+    -1px -1px 2px #fff,
+    1px -1px 2px #fff,
+    -1px 1px 2px #fff,
+    1px 1px 2px #fff;
+}
 .leaflet-container {
   font-family: "DM Sans", sans-serif;
   background: transparent;
