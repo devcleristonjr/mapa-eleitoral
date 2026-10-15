@@ -40,6 +40,7 @@ const state = {
   activeTooltipLayer: null,
   fullBounds: null,
   selectedLayer: null,
+  panelReturnFocus: null,
   municipalityLabelLayer: null,
   municipalityLabels: [],
   labelUpdateFrame: null,
@@ -56,6 +57,7 @@ const elements = {
   territoryFilter: document.querySelector("#territory-filter"),
   resetMap: document.querySelector("#reset-map"),
   panel: document.querySelector("#municipality-panel"),
+  closePanel: document.querySelector("#close-panel"),
   panelTitle: document.querySelector("#panel-title"),
   panelHint: document.querySelector("#panel-hint"),
   panelContent: document.querySelector("#panel-content"),
@@ -645,6 +647,7 @@ function changeTerritory(territory) {
     state.selectedLayer.getElement()?.classList.remove("is-selected");
     state.selectedLayer = null;
     elements.panel.classList.remove("is-open");
+    state.panelReturnFocus = null;
     elements.panelTitle.textContent = "Explore o mapa";
     elements.panelHint.hidden = false;
     elements.panelContent.hidden = true;
@@ -799,6 +802,7 @@ function resetFeatureStyle(layer) {
 }
 
 function showMunicipality(record, layer) {
+  const isOpeningPanel = !elements.panel.classList.contains("is-open");
   if (state.selectedLayer && state.selectedLayer !== layer) {
     state.municipalityLayer.resetStyle(state.selectedLayer);
     state.selectedLayer.getElement()?.classList.remove("is-selected");
@@ -811,6 +815,21 @@ function showMunicipality(record, layer) {
   elements.panelHint.hidden = true;
   elements.panelContent.hidden = false;
   elements.panel.classList.add("is-open");
+  if (isOpeningPanel) {
+    const activeElement = document.activeElement;
+    state.panelReturnFocus =
+      activeElement instanceof Element &&
+      activeElement !== document.body &&
+      !elements.panel.contains(activeElement)
+        ? activeElement
+        : layer.getElement();
+  }
+  if (
+    isOpeningPanel &&
+    window.matchMedia("(max-width: 620px)").matches
+  ) {
+    elements.closePanel.focus();
+  }
   renderMunicipalityPanel(record);
   animatePanelContent();
   document.querySelector("#panel-ibge").textContent = Number.isInteger(
@@ -1308,6 +1327,7 @@ function returnToBahia() {
   updateMunicipalityLabels();
   elements.searchInput.value = "";
   elements.panel.classList.remove("is-open");
+  state.panelReturnFocus = null;
   elements.panelTitle.textContent = "Explore o mapa";
   elements.panelHint.hidden = false;
   elements.panelContent.hidden = true;
@@ -1355,8 +1375,22 @@ function attachControls() {
     }
   });
   elements.downloadExcel.addEventListener("click", downloadResultsExcel);
-  document.querySelector("#close-panel").addEventListener("click", () => {
+  const closePanel = () => {
     elements.panel.classList.remove("is-open");
+    if (state.panelReturnFocus?.isConnected) {
+      state.panelReturnFocus.focus();
+    }
+    state.panelReturnFocus = null;
+  };
+  elements.closePanel.addEventListener("click", closePanel);
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      elements.panel.classList.contains("is-open") &&
+      window.matchMedia("(max-width: 620px)").matches
+    ) {
+      closePanel();
+    }
   });
 }
 

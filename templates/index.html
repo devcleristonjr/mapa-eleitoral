@@ -58,7 +58,7 @@
 
       <section class="controls" aria-label="Controles do mapa">
         <fieldset class="year-control">
-          <legend class="control-label">Turno</legend>
+          <legend class="control-label">Ano e turno</legend>
           <button
             class="year-button"
             type="button"
@@ -138,21 +138,21 @@
         </div>
         <div class="metric">
           <span class="metric-value" id="metric-max">--</span
-          ><span class="metric-label">Maior percentual</span
+          ><span class="metric-label">Maior percentual de votos</span
           ><span class="metric-detail" id="metric-max-city"></span>
         </div>
         <div class="metric">
           <span class="metric-value" id="metric-min">--</span
-          ><span class="metric-label">Menor percentual</span
+          ><span class="metric-label">Menor percentual de votos</span
           ><span class="metric-detail" id="metric-min-city"></span>
         </div>
         <div class="metric">
           <span class="metric-value" id="metric-average">--</span
-          ><span class="metric-label">Média</span>
+          ><span class="metric-label">Média percentual de votos</span>
         </div>
         <div class="metric">
           <span class="metric-value" id="metric-above">--</span
-          ><span class="metric-label">Acima de 75%</span>
+          ><span class="metric-label">Municípios acima de 75%</span>
         </div>
       </section>
 
@@ -288,9 +288,11 @@
       <section class="results-section" aria-labelledby="results-title">
         <div class="section-heading results-heading">
           <div>
-            <p class="eyebrow">Bahia · 2º turno</p>
+            <p class="eyebrow">Dados fixos · Bahia · 2º turno</p>
             <h2 id="results-title">Resumo por município</h2>
-            <p class="results-subtitle">Votos por candidato · 2022</p>
+            <p class="results-subtitle">
+              Votos por candidato · 2022 (independente do filtro de ano acima)
+            </p>
           </div>
           <div class="results-actions">
             <span id="table-count" class="section-meta">417 municípios</span>
@@ -298,7 +300,7 @@
               id="download-excel"
               class="download-button"
               type="button"
-              title="Baixar os resultados visíveis em Excel"
+              title="Baixar os resultados de 2022 do território selecionado"
             >
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"></path>
@@ -373,4 +375,3 @@
     </main>
   </body>
 </html>
-
